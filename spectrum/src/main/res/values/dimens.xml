@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="color_item_large">64dp</dimen>
+    <dimen name="color_item_small">48dp</dimen>
+    <dimen name="color_item_margins_large">8dp</dimen>
+    <dimen name="color_item_margins_small">4dp</dimen>
+    <dimen name="color_item_selected_check_margins">8dp</dimen>
+
+    <dimen name="color_preference_color_view_size">32dp</dimen>
+</resources>

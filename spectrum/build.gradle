@@ -1,5 +1,33 @@
 apply plugin: 'com.android.library'
 
+configurations {
+    javadocDeps
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'spectrum'
+
+    publishedGroupId = 'com.thebluealliance'
+    libraryName = 'Spectrum'
+    artifact = 'spectrum'
+
+    libraryDescription = 'A color selection library for Android'
+
+    siteUrl = 'https://github.com/the-blue-alliance/spectrum/'
+    gitUrl = 'https://github.com/the-blue-alliance/spectrum.git'
+
+    libraryVersion = '0.9.3'
+
+    developerId = 'nwalters512'
+    developerName = 'Nathan Walters'
+    developerEmail = 'nwalters512@gmail.com'
+
+    licenseName = 'MIT License'
+    licenseUrl = 'https://github.com/the-blue-alliance/spectrum/blob/master/LICENSE.md'
+    allLicenses = ["MIT"]
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -20,7 +48,13 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:support-annotations:23.2.1'
+    javadocDeps 'com.android.support:support-annotations:23.2.1'
     compile 'org.greenrobot:eventbus:3.0.0'
+    javadocDeps 'org.greenrobot:eventbus:3.0.0'
 }
+
+apply from: 'maven-install.gradle'
+apply from: 'bintray.gradle'

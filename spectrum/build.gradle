@@ -17,7 +17,7 @@ ext {
     siteUrl = 'https://github.com/the-blue-alliance/spectrum/'
     gitUrl = 'https://github.com/the-blue-alliance/spectrum.git'
 
-    libraryVersion = '0.9.3'
+    libraryVersion = '0.1.1'
 
     developerId = 'nwalters512'
     developerName = 'Nathan Walters'

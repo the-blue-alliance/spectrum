@@ -29,7 +29,7 @@ public class SpectrumPreference extends DialogPreference {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable
                 .SpectrumPreference, 0, 0);
         try {
-            int id = a.getResourceId(R.styleable.SpectrumPreference_colors, 0);
+            int id = a.getResourceId(R.styleable.SpectrumPreference_spectrum_colors, 0);
             if (id != 0) {
                 mColors = getContext().getResources().getIntArray(id);
             }

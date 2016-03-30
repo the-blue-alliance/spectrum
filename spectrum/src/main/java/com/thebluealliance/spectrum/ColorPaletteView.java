@@ -72,16 +72,16 @@ public class ColorPaletteView extends LinearLayout {
             width = widthSize;
             mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
         } else {
-            width = computeWidthForNumColumns(DEFAULT_COLUMN_COUNT);
+            width = computeWidthForNumColumns(DEFAULT_COLUMN_COUNT) + getPaddingLeft() + getPaddingRight();
             mNumColumns = DEFAULT_COLUMN_COUNT;
         }
 
         if (heightMode == MeasureSpec.EXACTLY) {
             height = heightSize;
         } else if (heightMode == MeasureSpec.AT_MOST) {
-            height = Math.min(computeHeight(mNumColumns), heightSize);
+            height = Math.min(computeHeight(mNumColumns) + getPaddingBottom() + getPaddingTop(), heightSize);
         } else {
-            height = computeHeight(mNumColumns);
+            height = computeHeight(mNumColumns) + getPaddingTop() + getPaddingBottom();
         }
 
         createPaletteView();

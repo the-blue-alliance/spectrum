@@ -9,23 +9,29 @@ import org.greenrobot.eventbus.Subscribe;
 import android.content.Context;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableRow;
 
 /**
  * General-purpose class that displays colors in a grid.
  */
 public class ColorPaletteView extends LinearLayout {
 
+    private static final int DEFAULT_COLUMN_COUNT = 4;
+
     private int mColorItemDimension;
     private int mColorItemMargin;
     private @ColorInt int[] mColors;
     private @ColorInt int mSelectedColor;
     private OnColorSelectedListener mListener;
+
+    private int mNumColumns = 2;
+    private int mOldNumColumns = -1;
+    private boolean mViewInitialized = false;
 
     private EventBus mEventBus;
 
@@ -49,6 +55,62 @@ public class ColorPaletteView extends LinearLayout {
         setOrientation(LinearLayout.VERTICAL);
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        int width, height;
+
+        if (widthMode == MeasureSpec.EXACTLY) {
+            width = widthSize;
+        } else if (widthMode == MeasureSpec.AT_MOST) {
+            width = widthSize;
+            mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
+        } else {
+            mNumColumns = DEFAULT_COLUMN_COUNT;
+            width = computeWidthForNumColumns(DEFAULT_COLUMN_COUNT);
+        }
+
+        // Measure Height
+        if (heightMode == MeasureSpec.EXACTLY) {
+            height = heightSize;
+        } else if (heightMode == MeasureSpec.AT_MOST) {
+            height = Math.min(computeHeight(mNumColumns), heightSize);
+        } else {
+            height = computeHeight(mNumColumns);
+        }
+
+        createPaletteView();
+
+        super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
+    }
+
+    private int computeColumnCount(int maxWidth) {
+        int numColumns = 0;
+        while (((numColumns + 1) * mColorItemDimension) + ((numColumns + 1) * 2 * mColorItemMargin) <= maxWidth) {
+            numColumns++;
+            int computedWidth = ((numColumns * mColorItemDimension) + (numColumns * mColorItemMargin * 2));
+            Log.d("colorpicker", "computed width: " + computedWidth);
+        }
+        return numColumns;
+    }
+
+    private int computeWidthForNumColumns(int columnCount) {
+        return columnCount * (mColorItemDimension + 2 * mColorItemMargin);
+    }
+
+    private int computeHeight(int columnCount) {
+        int rowCount = mColors.length / columnCount;
+        if (mColors.length % columnCount != 0) {
+            rowCount++;
+        }
+        return rowCount * (mColorItemDimension + 2 * mColorItemMargin);
+    }
+
     /**
      * Sets the colors that this palette will display
      *
@@ -56,6 +118,7 @@ public class ColorPaletteView extends LinearLayout {
      */
     public void setColors(@ColorInt int[] colors) {
         mColors = colors;
+        mViewInitialized = false;
         createPaletteView();
     }
 
@@ -84,6 +147,15 @@ public class ColorPaletteView extends LinearLayout {
      * hold a number of {@link ColorItem}s, which display the individual colors.
      */
     protected void createPaletteView() {
+        // Only create the view if it hasn't been created yet or if the number of columns has changed
+        if (mViewInitialized && mNumColumns == mOldNumColumns) {
+            return;
+        }
+        Log.d("colorpicker", "creating view");
+        Log.d("colorpicker", "old columns: " + mOldNumColumns + "; new columns: " + mNumColumns);
+        mViewInitialized = true;
+        mOldNumColumns = mNumColumns;
+
         removeAllViews();
 
         if (mColors == null) {
@@ -91,7 +163,6 @@ public class ColorPaletteView extends LinearLayout {
         }
 
         // Add rows
-        int maxRowLength = 5;
         int numItemsInRow = 0;
 
         LinearLayout row = createRow();
@@ -100,19 +171,21 @@ public class ColorPaletteView extends LinearLayout {
             row.addView(colorItem);
             numItemsInRow++;
 
-            if (numItemsInRow == maxRowLength) {
+            if (numItemsInRow == mNumColumns) {
                 addView(row);
+                Log.d("colorpicker", "adding row");
                 row = createRow();
                 numItemsInRow = 0;
             }
         }
 
         if (numItemsInRow > 0) {
-            while (numItemsInRow < maxRowLength) {
+            while (numItemsInRow < mNumColumns) {
                 row.addView(createSpacer());
                 numItemsInRow++;
             }
             addView(row);
+            Log.d("colorpicker", "adding row");
         }
     }
 
@@ -128,7 +201,7 @@ public class ColorPaletteView extends LinearLayout {
 
     private ColorItem createColorItem(int color, int selectedColor) {
         ColorItem view = new ColorItem(getContext(), color, color == selectedColor, mEventBus);
-        TableRow.LayoutParams params = new TableRow.LayoutParams(mColorItemDimension, mColorItemDimension);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mColorItemDimension, mColorItemDimension);
         params.setMargins(mColorItemMargin, mColorItemMargin, mColorItemMargin, mColorItemMargin);
         view.setLayoutParams(params);
         return view;
@@ -136,7 +209,7 @@ public class ColorPaletteView extends LinearLayout {
 
     private ImageView createSpacer() {
         ImageView view = new ImageView(getContext());
-        TableRow.LayoutParams params = new TableRow.LayoutParams(mColorItemDimension, mColorItemDimension);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mColorItemDimension, mColorItemDimension);
         params.setMargins(mColorItemMargin, mColorItemMargin, mColorItemMargin, mColorItemMargin);
         view.setLayoutParams(params);
         return view;

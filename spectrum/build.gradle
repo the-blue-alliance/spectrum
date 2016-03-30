@@ -50,6 +50,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:preference-v7:23.2.1'
     compile 'com.android.support:support-annotations:23.2.1'
     javadocDeps 'com.android.support:support-annotations:23.2.1'
     compile 'org.greenrobot:eventbus:3.0.0'

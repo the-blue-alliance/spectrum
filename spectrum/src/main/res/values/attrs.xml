@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="SpectrumPreference">
         <attr name="spectrum_colors" format="reference" />
+        <attr name="spectrum_closeOnSelected" format="boolean" />
     </declare-styleable>
 </resources>

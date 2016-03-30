@@ -20,6 +20,7 @@ public class SpectrumPreference extends DialogPreference {
 
     private @ColorInt int[] mColors;
     private @ColorInt int mCurrentValue;
+    private boolean mCloseOnSelected = true;
     private ColorPaletteView mColorPalette;
     private View mColorView;
 
@@ -33,6 +34,7 @@ public class SpectrumPreference extends DialogPreference {
             if (id != 0) {
                 mColors = getContext().getResources().getIntArray(id);
             }
+            mCloseOnSelected = a.getBoolean(R.styleable.SpectrumPreference_spectrum_closeOnSelected, true);
         } finally {
             a.recycle();
         }
@@ -64,9 +66,28 @@ public class SpectrumPreference extends DialogPreference {
      * @return Array of colors
      */
     public
-    @ColorInt
-    int[] getColors() {
+    @ColorInt int[] getColors() {
         return mColors;
+    }
+
+    /**
+     * By default, the color selection dialog will close automatically when a color is
+     * clicked/selected, and that selection will be saved. If you want the user to have to press
+     * the positive button to confirm the color selection, you should use this method..
+     *
+     * @param closeOnSelected if the selection dialog should close automatically when a color is
+     *                        clicked
+     */
+    public void setCloseOnSelected(boolean closeOnSelected) {
+        mCloseOnSelected = closeOnSelected;
+    }
+
+    /**
+     * @see #setCloseOnSelected(boolean)
+     * @return true if the dialog will close automatically when a color is selected
+     */
+    public boolean getCloseOnSelected() {
+        return mCloseOnSelected;
     }
 
     @Override
@@ -81,8 +102,10 @@ public class SpectrumPreference extends DialogPreference {
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
-        // Don't show the positive button; clicking a color will be the "positive" action
-        builder.setPositiveButton(null, null);
+        if (mCloseOnSelected) {
+            // Don't show the positive button; clicking a color will be the "positive" action
+            builder.setPositiveButton(null, null);
+        }
     }
 
     private void updateColorView() {
@@ -113,9 +136,11 @@ public class SpectrumPreference extends DialogPreference {
             public void onColorSelected(@ColorInt int color) {
                 mCurrentValue = color;
                 updateColorView();
-                SpectrumPreference.this.onClick(null, DialogInterface.BUTTON_POSITIVE);
-                if (getDialog() != null) {
-                    getDialog().dismiss();
+                if (mCloseOnSelected) {
+                    SpectrumPreference.this.onClick(null, DialogInterface.BUTTON_POSITIVE);
+                    if (getDialog() != null) {
+                        getDialog().dismiss();
+                    }
                 }
             }
         });

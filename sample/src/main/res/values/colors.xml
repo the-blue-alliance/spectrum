@@ -25,5 +25,26 @@
         <item>@color/md_grey_500</item>
         <item>@color/md_blue_grey_500</item>
         <item>@color/md_white</item>
+
+        <item>@color/md_red_500</item>
+        <item>@color/md_pink_500</item>
+        <item>@color/md_purple_500</item>
+        <item>@color/md_deep_purple_500</item>
+        <item>@color/md_indigo_500</item>
+        <item>@color/md_blue_500</item>
+        <item>@color/md_light_blue_500</item>
+        <item>@color/md_cyan_500</item>
+        <item>@color/md_teal_500</item>
+        <item>@color/md_green_500</item>
+        <item>@color/md_light_green_500</item>
+        <item>@color/md_lime_500</item>
+        <item>@color/md_yellow_500</item>
+        <item>@color/md_amber_500</item>
+        <item>@color/md_orange_500</item>
+        <item>@color/md_deep_orange_500</item>
+        <item>@color/md_brown_500</item>
+        <item>@color/md_grey_500</item>
+        <item>@color/md_blue_grey_500</item>
+        <item>@color/md_white</item>
     </array>
 </resources>

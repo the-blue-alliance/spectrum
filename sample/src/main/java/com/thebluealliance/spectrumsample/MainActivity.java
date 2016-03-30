@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new Fragment(), "Dialogs");
         adapter.addFrag(new PreferencesDemoFragment(), "Preferences");
-        adapter.addFrag(new Fragment(), "Color Picker");
+        adapter.addFrag(new ViewDemoFragment(), "Color Picker");
         mViewPager.setAdapter(adapter);
     }
 

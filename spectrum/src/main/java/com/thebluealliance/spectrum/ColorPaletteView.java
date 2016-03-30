@@ -67,15 +67,15 @@ public class ColorPaletteView extends LinearLayout {
 
         if (widthMode == MeasureSpec.EXACTLY) {
             width = widthSize;
+            mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
         } else if (widthMode == MeasureSpec.AT_MOST) {
             width = widthSize;
             mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
         } else {
-            mNumColumns = DEFAULT_COLUMN_COUNT;
             width = computeWidthForNumColumns(DEFAULT_COLUMN_COUNT);
+            mNumColumns = DEFAULT_COLUMN_COUNT;
         }
 
-        // Measure Height
         if (heightMode == MeasureSpec.EXACTLY) {
             height = heightSize;
         } else if (heightMode == MeasureSpec.AT_MOST) {
@@ -86,6 +86,8 @@ public class ColorPaletteView extends LinearLayout {
 
         createPaletteView();
 
+        Log.d("spectrum", "width: " + width + "; height: " + height + "; column count: " + mNumColumns);
+
         super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
     }
 
@@ -93,8 +95,6 @@ public class ColorPaletteView extends LinearLayout {
         int numColumns = 0;
         while (((numColumns + 1) * mColorItemDimension) + ((numColumns + 1) * 2 * mColorItemMargin) <= maxWidth) {
             numColumns++;
-            int computedWidth = ((numColumns * mColorItemDimension) + (numColumns * mColorItemMargin * 2));
-            Log.d("colorpicker", "computed width: " + computedWidth);
         }
         return numColumns;
     }

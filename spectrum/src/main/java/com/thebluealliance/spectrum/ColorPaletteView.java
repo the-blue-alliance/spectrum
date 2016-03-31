@@ -144,7 +144,7 @@ public class ColorPaletteView extends LinearLayout {
      * Generates the views to represent this palette's colors. The grid is implemented with
      * {@link LinearLayout}s. This class itself subclasses {@link LinearLayout} and is set up in
      * the vertical orientation. Rows consist of horizontal {@link LinearLayout}s which themselves
-     * hold a number of {@link ColorItem}s, which display the individual colors.
+     * hold views that display the individual colors.
      */
     protected void createPaletteView() {
         // Only create the view if it hasn't been created yet or if the number of columns has changed
@@ -173,7 +173,6 @@ public class ColorPaletteView extends LinearLayout {
 
             if (numItemsInRow == mNumColumns) {
                 addView(row);
-                Log.d("colorpicker", "adding row");
                 row = createRow();
                 numItemsInRow = 0;
             }
@@ -185,7 +184,6 @@ public class ColorPaletteView extends LinearLayout {
                 numItemsInRow++;
             }
             addView(row);
-            Log.d("colorpicker", "adding row");
         }
     }
 

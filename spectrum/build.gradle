@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: 'versioning.gradle'
 
 ext {
     bintrayRepo = 'maven'
@@ -13,8 +14,8 @@ ext {
     siteUrl = 'https://github.com/the-blue-alliance/spectrum/'
     gitUrl = 'https://github.com/the-blue-alliance/spectrum.git'
 
-    libraryVersionCode = 3;
-    libraryVersion = '0.1.1'
+    libraryVersion = '0.2.0'
+    libraryVersionCode = buildVersionCode(libraryVersion)
 
     developerId = 'nwalters512'
     developerName = 'Nathan Walters'

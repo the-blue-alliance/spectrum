@@ -1,6 +1,6 @@
 package com.thebluealliance.spectrum.internal;
 
-import com.thebluealliance.spectrum.ColorPaletteView;
+import com.thebluealliance.spectrum.SpectrumPalette;
 import com.thebluealliance.spectrum.R;
 import com.thebluealliance.spectrum.SpectrumPreferenceCompat;
 
@@ -13,7 +13,7 @@ import android.view.View;
 
 public class SpectrumPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 
-    private ColorPaletteView mColorPalette;
+    private SpectrumPalette mColorPalette;
     private @ColorInt int mCurrentValue;
 
     public static SpectrumPreferenceDialogFragmentCompat newInstance(String key) {
@@ -50,10 +50,10 @@ public class SpectrumPreferenceDialogFragmentCompat extends PreferenceDialogFrag
 
         mCurrentValue = preference.getValue();
 
-        mColorPalette = (ColorPaletteView) view.findViewById(R.id.palette);
+        mColorPalette = (SpectrumPalette) view.findViewById(R.id.palette);
         mColorPalette.setColors(getSpectrumPreference().getColors());
         mColorPalette.setSelectedColor(mCurrentValue);
-        mColorPalette.setOnColorSelectedListener(new ColorPaletteView.OnColorSelectedListener() {
+        mColorPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
             @Override
             public void onColorSelected(@ColorInt int color) {
                 mCurrentValue = color;

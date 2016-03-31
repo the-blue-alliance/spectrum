@@ -7,9 +7,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 /**
  * General-purpose class that displays colors in a grid.
  */
-public class ColorPaletteView extends LinearLayout {
+public class SpectrumPalette extends LinearLayout {
 
     private static final int DEFAULT_COLUMN_COUNT = 4;
 
@@ -28,6 +28,11 @@ public class ColorPaletteView extends LinearLayout {
     private @ColorInt int[] mColors;
     private @ColorInt int mSelectedColor;
     private OnColorSelectedListener mListener;
+    private boolean mAutoPadding = false;
+    private int mComputedVerticalPadding = 0;
+    private int mOriginalPaddingTop = 0;
+    private int mOriginalPaddingBottom = 0;
+    private boolean mSetPaddingCalledInternally = false;
 
     private int mNumColumns = 2;
     private int mOldNumColumns = -1;
@@ -35,13 +40,28 @@ public class ColorPaletteView extends LinearLayout {
 
     private EventBus mEventBus;
 
-    public ColorPaletteView(Context context) {
+    public SpectrumPalette(Context context) {
         super(context);
         init();
     }
 
-    public ColorPaletteView(Context context, AttributeSet attrs) {
+    public SpectrumPalette(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.SpectrumPalette, 0, 0);
+
+        int id = a.getResourceId(R.styleable.SpectrumPalette_spectrum_colors, 0);
+        if (id != 0) {
+            mColors = getContext().getResources().getIntArray(id);
+        }
+
+        mAutoPadding = a.getBoolean(R.styleable.SpectrumPalette_spectrum_autoPadding, false);
+
+        a.recycle();
+
+        mOriginalPaddingTop = getPaddingTop();
+        mOriginalPaddingBottom = getPaddingBottom();
+
         init();
     }
 
@@ -53,62 +73,6 @@ public class ColorPaletteView extends LinearLayout {
         mColorItemMargin = getResources().getDimensionPixelSize(R.dimen.color_item_margins_small);
 
         setOrientation(LinearLayout.VERTICAL);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-
-        int width, height;
-
-        if (widthMode == MeasureSpec.EXACTLY) {
-            width = widthSize;
-            mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
-        } else if (widthMode == MeasureSpec.AT_MOST) {
-            width = widthSize;
-            mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
-        } else {
-            width = computeWidthForNumColumns(DEFAULT_COLUMN_COUNT) + getPaddingLeft() + getPaddingRight();
-            mNumColumns = DEFAULT_COLUMN_COUNT;
-        }
-
-        if (heightMode == MeasureSpec.EXACTLY) {
-            height = heightSize;
-        } else if (heightMode == MeasureSpec.AT_MOST) {
-            height = Math.min(computeHeight(mNumColumns) + getPaddingBottom() + getPaddingTop(), heightSize);
-        } else {
-            height = computeHeight(mNumColumns) + getPaddingTop() + getPaddingBottom();
-        }
-
-        createPaletteView();
-
-        Log.d("spectrum", "width: " + width + "; height: " + height + "; column count: " + mNumColumns);
-
-        super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
-    }
-
-    private int computeColumnCount(int maxWidth) {
-        int numColumns = 0;
-        while (((numColumns + 1) * mColorItemDimension) + ((numColumns + 1) * 2 * mColorItemMargin) <= maxWidth) {
-            numColumns++;
-        }
-        return numColumns;
-    }
-
-    private int computeWidthForNumColumns(int columnCount) {
-        return columnCount * (mColorItemDimension + 2 * mColorItemMargin);
-    }
-
-    private int computeHeight(int columnCount) {
-        int rowCount = mColors.length / columnCount;
-        if (mColors.length % columnCount != 0) {
-            rowCount++;
-        }
-        return rowCount * (mColorItemDimension + 2 * mColorItemMargin);
     }
 
     /**
@@ -140,6 +104,94 @@ public class ColorPaletteView extends LinearLayout {
         mListener = listener;
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        int width, height;
+
+        if (widthMode == MeasureSpec.EXACTLY) {
+            width = widthSize;
+            mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
+        } else if (widthMode == MeasureSpec.AT_MOST) {
+            width = widthSize;
+            mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
+        } else {
+            width = computeWidthForNumColumns(DEFAULT_COLUMN_COUNT) + getPaddingLeft() + getPaddingRight();
+            mNumColumns = DEFAULT_COLUMN_COUNT;
+        }
+
+        mComputedVerticalPadding = (width - (computeWidthForNumColumns(mNumColumns) + getPaddingLeft() + getPaddingRight())) / 2;
+
+        if (heightMode == MeasureSpec.EXACTLY) {
+            height = heightSize;
+        } else if (heightMode == MeasureSpec.AT_MOST) {
+            int desiredHeight = computeHeight(mNumColumns) + mOriginalPaddingTop + mOriginalPaddingBottom;
+            if (mAutoPadding) {
+                desiredHeight += (2 * mComputedVerticalPadding);
+            }
+            height = Math.min(desiredHeight, heightSize);
+        } else {
+            height = computeHeight(mNumColumns) + mOriginalPaddingTop + mOriginalPaddingBottom;
+            if (mAutoPadding) {
+                height += (2 * mComputedVerticalPadding);
+            }
+        }
+
+        if (mAutoPadding) {
+            setPaddingInternal(getPaddingLeft(), mOriginalPaddingTop + mComputedVerticalPadding, getPaddingRight(), mOriginalPaddingBottom + mComputedVerticalPadding);
+        }
+        createPaletteView();
+
+        super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
+    }
+
+    private int computeColumnCount(int maxWidth) {
+        int numColumns = 0;
+        while (((numColumns + 1) * mColorItemDimension) + ((numColumns + 1) * 2 * mColorItemMargin) <= maxWidth) {
+            numColumns++;
+        }
+        return numColumns;
+    }
+
+    private int computeWidthForNumColumns(int columnCount) {
+        return columnCount * (mColorItemDimension + 2 * mColorItemMargin);
+    }
+
+    private int computeHeight(int columnCount) {
+        int rowCount = mColors.length / columnCount;
+        if (mColors.length % columnCount != 0) {
+            rowCount++;
+        }
+        return rowCount * (mColorItemDimension + 2 * mColorItemMargin);
+    }
+
+
+    private void setPaddingInternal(int left, int top, int right, int bottom) {
+        mSetPaddingCalledInternally = true;
+        setPadding(left, top, right, bottom);
+    }
+
+    @Override public void setPadding(int left, int top, int right, int bottom) {
+        super.setPadding(left, top, right, bottom);
+        if (!mSetPaddingCalledInternally) {
+            mOriginalPaddingTop = top;
+            mOriginalPaddingBottom = bottom;
+        }
+    }
+
+    private int getOriginalPaddingTop() {
+        return mOriginalPaddingTop;
+    }
+
+    private int getOriginalPaddingBottom() {
+        return mOriginalPaddingBottom;
+    }
+
     /**
      * Generates the views to represent this palette's colors. The grid is implemented with
      * {@link LinearLayout}s. This class itself subclasses {@link LinearLayout} and is set up in
@@ -151,8 +203,6 @@ public class ColorPaletteView extends LinearLayout {
         if (mViewInitialized && mNumColumns == mOldNumColumns) {
             return;
         }
-        Log.d("colorpicker", "creating view");
-        Log.d("colorpicker", "old columns: " + mOldNumColumns + "; new columns: " + mNumColumns);
         mViewInitialized = true;
         mOldNumColumns = mNumColumns;
 

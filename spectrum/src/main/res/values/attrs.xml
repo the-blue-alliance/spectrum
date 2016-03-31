@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="spectrum_colors" format="reference" />
+
+    <declare-styleable name="SpectrumPalette">
+        <attr name="spectrum_autoPadding" format="boolean" />
+        <attr name="spectrum_colors" />
+    </declare-styleable>
+
     <declare-styleable name="SpectrumPreference">
-        <attr name="spectrum_colors" format="reference" />
+        <attr name="spectrum_colors" />
         <attr name="spectrum_closeOnSelected" format="boolean" />
     </declare-styleable>
 </resources>

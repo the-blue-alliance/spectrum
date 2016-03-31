@@ -16,7 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
-public class SpectrumDialog extends DialogFragment implements ColorPaletteView.OnColorSelectedListener {
+public class SpectrumDialog extends DialogFragment implements SpectrumPalette.OnColorSelectedListener {
 
     private static final String KEY_TITLE = "title";
     private static final String KEY_COLORS = "colors";
@@ -314,7 +314,7 @@ public class SpectrumDialog extends DialogFragment implements ColorPaletteView.O
         });
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_color_picker, null);
-        ColorPaletteView palette = (ColorPaletteView) view.findViewById(R.id.palette);
+        SpectrumPalette palette = (SpectrumPalette) view.findViewById(R.id.palette);
         palette.setColors(mColors);
         palette.setSelectedColor(mSelectedColor);
         palette.setOnColorSelectedListener(this);

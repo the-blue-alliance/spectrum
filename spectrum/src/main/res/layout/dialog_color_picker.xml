@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.thebluealliance.spectrum.ColorPaletteView
+    <com.thebluealliance.spectrum.SpectrumPalette
         android:id="@+id/palette"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

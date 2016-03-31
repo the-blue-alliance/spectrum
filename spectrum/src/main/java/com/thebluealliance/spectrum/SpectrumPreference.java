@@ -21,7 +21,7 @@ public class SpectrumPreference extends DialogPreference {
     private @ColorInt int[] mColors;
     private @ColorInt int mCurrentValue;
     private boolean mCloseOnSelected = true;
-    private ColorPaletteView mColorPalette;
+    private SpectrumPalette mColorPalette;
     private View mColorView;
 
     public SpectrumPreference(Context context, AttributeSet attrs) {
@@ -128,10 +128,10 @@ public class SpectrumPreference extends DialogPreference {
             throw new RuntimeException("SpectrumPreference requires a colors array");
         }
 
-        mColorPalette = (ColorPaletteView) view.findViewById(R.id.palette);
+        mColorPalette = (SpectrumPalette) view.findViewById(R.id.palette);
         mColorPalette.setColors(mColors);
         mColorPalette.setSelectedColor(mCurrentValue);
-        mColorPalette.setOnColorSelectedListener(new ColorPaletteView.OnColorSelectedListener() {
+        mColorPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
             @Override
             public void onColorSelected(@ColorInt int color) {
                 mCurrentValue = color;

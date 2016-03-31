@@ -37,3 +37,6 @@ To deploy the artifacts, run the following commands. The first is a dry run to m
 ```
 
 For a more thorough introduction on how to distribute libraries through jCenter and Maven Central, please see http://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en.
+
+## Developers
+- Nathan Walters ([@nwalters512](https://github.com/nwalters512))

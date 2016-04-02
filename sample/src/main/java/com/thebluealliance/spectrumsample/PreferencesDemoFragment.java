@@ -9,20 +9,13 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 public class PreferencesDemoFragment extends PreferenceFragmentCompat {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public void onCreatePreferences(Bundle bundle, String s) {
         try {
             addPreferencesFromResource(R.xml.demo_preferences);
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause().printStackTrace();
         }
-    }
-
-    @Override
-    public void onCreatePreferences(Bundle bundle, String s) {
-        // Do nothing?
     }
 
     @Override public void onDisplayPreferenceDialog(Preference preference) {

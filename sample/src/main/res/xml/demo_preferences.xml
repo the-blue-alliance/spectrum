@@ -6,15 +6,15 @@
         android:defaultValue="@color/md_indigo_500"
         android:key="demo_preference_1"
         android:summary="This is pretty cool."
-        android:title="Color Preference"
+        android:title="Color reference"
         app:spectrum_colors="@array/demo_colors" />
 
     <com.thebluealliance.spectrum.SpectrumPreferenceCompat
         android:defaultValue="@color/md_red_500"
         android:key="demo_preference_2"
         android:summary="This preference won't close automatically when a color is selected; you have to press OK"
-        android:title="Another Color Preference"
+        android:title="Another color preference"
         app:spectrum_closeOnSelected="false"
-        app:spectrum_colors="@array/demo_colors" />
+        app:spectrum_colors="@array/demo_colors_expanded" />
 
 </PreferenceScreen>

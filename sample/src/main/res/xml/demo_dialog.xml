@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:key="demo_dialog_1"
+        android:summary="This dialog will close automatically when you select a color"
+        android:title="Click for a dialog"/>
+
+    <Preference
+        android:key="demo_dialog_2"
+        android:summary="This dialog won't close automatically when a color is selected; you have to press OK"
+        android:title="Click for another dialog" />
+
+</PreferenceScreen>

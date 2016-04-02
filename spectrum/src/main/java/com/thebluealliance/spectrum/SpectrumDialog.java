@@ -33,7 +33,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private @ColorInt int mOriginalSelectedColor = -1;
     private @ColorInt int mSelectedColor = -1;
     private boolean mShouldDismissOnColorSelected = true;
-    private ColorPickerListener mListener;
+    private OnColorSelectedListener mListener;
 
     public SpectrumDialog() {
         // Required empty constructor
@@ -42,7 +42,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     public static class Builder {
         private Context mContext;
         private Bundle mArgs;
-        private ColorPickerListener mListener;
+        private OnColorSelectedListener mListener;
 
         public Builder(Context context) {
             mContext = context;
@@ -170,22 +170,23 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          * Sets a listener to receive callbacks when the user interacts with the dialog.
          *
          * If you want this dialog to work properly across orientation changes, you should call
-         * {@link SpectrumDialog#setColorPickerListener(ColorPickerListener)} when your activity
+         * {@link SpectrumDialog#setOnColorSelectedListener(OnColorSelectedListener)} when your
+         * activity
          * is recreated. The dialog will persist its initial configuration and state across
          * configuration changes, but it cannot retain the callback object
          * (see {@link SpectrumDialog#onSaveInstanceState(Bundle)}).
          *
          * @return This {@link Builder} for method chaining
-         * @see ColorPickerListener
+         * @see OnColorSelectedListener
          */
-        public Builder setColorSelectedListener(ColorPickerListener listener) {
+        public Builder setOnColorSelectedListener(OnColorSelectedListener listener) {
             mListener = listener;
             return this;
         }
 
         /**
          * Sets if the dialog should close automatically when a color is selected. By default,
-         * clicking a color will close the dialog and invoke {@link ColorPickerListener#onColorSelected(int)}.
+         * clicking a color will close the dialog and invoke {@link OnColorSelectedListener#onColorSelected(int)}.
          * If you want the dialog close to be deferred until the user presses the dialog's positive
          * button, you should use this method.
          *
@@ -199,7 +200,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         public SpectrumDialog build() {
             SpectrumDialog dialog = new SpectrumDialog();
             dialog.setArguments(mArgs);
-            dialog.setColorPickerListener(mListener);
+            dialog.setOnColorSelectedListener(mListener);
             return dialog;
         }
     }
@@ -209,9 +210,9 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
      * confirming a color selection or by cancelling the dialog.
      *
      * @param listener object on which the callback methods will be invoked
-     * @see ColorPickerListener
+     * @see OnColorSelectedListener
      */
-    public void setColorPickerListener(ColorPickerListener listener) {
+    public void setOnColorSelectedListener(OnColorSelectedListener listener) {
         mListener = listener;
     }
 
@@ -297,7 +298,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (mListener != null) {
-                        mListener.onColorPickerResult(ColorPickerListener.POSITIVE, mSelectedColor);
+                        mListener.onColorSelected(true, mSelectedColor);
                     }
                     dialog.dismiss();
                 }
@@ -307,7 +308,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (mListener != null) {
-                    mListener.onColorPickerResult(ColorPickerListener.NEGATIVE, mOriginalSelectedColor);
+                    mListener.onColorSelected(false, mOriginalSelectedColor);
                 }
                 dialog.dismiss();
             }
@@ -329,7 +330,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         super.onCancel(dialog);
 
         if (mListener != null) {
-            mListener.onColorPickerResult(ColorPickerListener.NEGATIVE, mOriginalSelectedColor);
+            mListener.onColorSelected(false, mOriginalSelectedColor);
         }
     }
 
@@ -343,14 +344,17 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     public void onColorSelected(@ColorInt int color) {
         mSelectedColor = color;
         if (mShouldDismissOnColorSelected) {
+            if(mListener != null) {
+                mListener.onColorSelected(true, mSelectedColor);
+            }
             dismiss();
         }
     }
 
     /**
-     *
+     * Will receive callbacks when the user selects a color
      */
-    public interface ColorPickerListener {
+    public interface OnColorSelectedListener {
         /**
          * Indicates that the user confirmed the color selection, either by pressing "OK" or
          * clicking on a color.
@@ -365,9 +369,23 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         int NEGATIVE = -2;
 
         /**
-         * @see #POSITIVE
-         * @see #NEGATIVE
+         * Called when the user selects a color and closes the dialog. If
+         * {@link Builder#setDismissOnColorSelected(boolean)} is set to false, this will only be
+         * called once when the user confirms the color with the dialog's positive button.
+         *
+         * Note that the user may cancel the dialog with the dialog's negative button, by tapping
+         * outside the dialog, or with the system's "Back" button. In those cases, this callback
+         * will still be called, but {@code positiveResult} will be {@code false}, and
+         * {@color will} be whichever color was specified via {@link Builder#setSelectedColor(int)}.
+         *
+         * @param positiveResult true if the user confirmed this color, either by tapping on a
+         *                       color with {@link Builder#setDismissOnColorSelected(boolean)} set
+         *                       to true, or when the user presses the
+         *                       dialog's positive button. false
+         *                       if the user cancelled the dialog.
+         * @param color          the color selected by the user, or the default selected color if
+         *                       the user cancelled the dialog
          */
-        void onColorPickerResult(int resultCode, @ColorInt int color);
+        void onColorSelected(boolean positiveResult, @ColorInt int color);
     }
 }

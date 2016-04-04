@@ -33,7 +33,6 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
 
     private ImageView mItemCheckmark;
     private @ColorInt int mColor;
-    private Paint mBackgroundPaint;
     private boolean mIsSelected = false;
 
     public ColorItem(Context context, @ColorInt int color, boolean isSelected, EventBus eventBus) {
@@ -67,10 +66,6 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
         LayoutInflater.from(getContext()).inflate(R.layout.color_item, this, true);
         mItemCheckmark = (ImageView) findViewById(R.id.selected_checkmark);
         mItemCheckmark.setImageResource(isDarkBackground() ? R.drawable.ic_check_white_24dp : R.drawable.ic_check_black_24dp);
-
-        mBackgroundPaint = new Paint();
-        mBackgroundPaint.setColor(mColor);
-        mBackgroundPaint.setAntiAlias(true);
     }
 
     public void setChecked(boolean checked) {

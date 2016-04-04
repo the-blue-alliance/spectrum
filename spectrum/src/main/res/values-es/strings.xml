@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">MaterialColorPicker</string>
 
-    <string name="default_dialog_title">Select a color</string>
+    <string name="default_dialog_title">Elige un color</string>
 </resources>

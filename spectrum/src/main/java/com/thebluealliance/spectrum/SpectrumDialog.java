@@ -262,13 +262,13 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         if (args != null && args.containsKey(KEY_POSITIVE_BUTTON_TEXT)) {
             mPositiveButtonText = args.getCharSequence(KEY_POSITIVE_BUTTON_TEXT);
         } else {
-            mPositiveButtonText = getContext().getText(R.string.ok);
+            mPositiveButtonText = getContext().getText(android.R.string.ok);
         }
 
         if (args != null && args.containsKey(KEY_NEGATIVE_BUTTON_TEXT)) {
             mNegativeButtonText = args.getCharSequence(KEY_NEGATIVE_BUTTON_TEXT);
         } else {
-            mNegativeButtonText = getContext().getText(R.string.cancel);
+            mNegativeButtonText = getContext().getText(android.R.string.cancel);
         }
 
         // Next, overwrite any appropriate values if present in the saved instance state

@@ -1,5 +1,5 @@
 # Spectrum
-[![Bintray](https://img.shields.io/bintray/v/nwalters512/maven/spectrum.svg?style=flat-square)](https://bintray.com/nwalters512/maven/spectrum/view) [![Maven Central](https://img.shields.io/maven-central/v/com.thebluealliance/spectrum.svg?style=flat-square)](http://search.maven.org/#artifactdetails|com.thebluealliance|spectrum|0.1.1|aar) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Spectrum-green.svg?style=flat-square)](https://android-arsenal.com/details/1/3373) [![](https://jitpack.io/v/the-blue-alliance/spectrum.svg)](https://jitpack.io/#the-blue-alliance/spectrum)
+[![Bintray](https://img.shields.io/bintray/v/nwalters512/maven/spectrum.svg?style=flat-square)](https://bintray.com/nwalters512/maven/spectrum/view) [![Maven Central](https://img.shields.io/maven-central/v/com.thebluealliance/spectrum.svg?style=flat-square)](http://search.maven.org/#artifactdetails|com.thebluealliance|spectrum|0.1.1|aar) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Spectrum-green.svg?style=flat-square)](https://android-arsenal.com/details/1/3373)
 
 Spectrum is an Android library that makes it easy to let your user pick from a list of colors.
 
@@ -19,31 +19,6 @@ The library is hosted on both Bintray (JCenter) and Maven Central; use whichever
 repositories {
   jcenter()
 }
-```
-
-#Download using JitPack.io:
-Add this in your root `build.gradle` file (**not** your module `build.gradle` file):
-
-```gradle
-allprojects {
-	repositories {
-		...
-		maven { url "https://jitpack.io" }
-	}
-}
-```
-
-Dependency
---
-
-Add this to your module's `build.gradle` file (make sure the version matches the JitPack badge above):
-
-```gradle
-dependencies {
-	...
-	compile 'com.github.the-blue-alliance:spectrum:0.2.1'
-}
-```
 
 ## Features
 - `SpectrumDialog` with Builder pattern

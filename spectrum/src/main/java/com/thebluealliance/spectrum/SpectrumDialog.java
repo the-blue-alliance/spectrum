@@ -376,7 +376,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          * Note that the user may cancel the dialog with the dialog's negative button, by tapping
          * outside the dialog, or with the system's "Back" button. In those cases, this callback
          * will still be called, but {@code positiveResult} will be {@code false}, and
-         * {@color will} be whichever color was specified via {@link Builder#setSelectedColor(int)}.
+         * {@code color} be whichever color was specified via {@link Builder#setSelectedColor(int)}.
          *
          * @param positiveResult true if the user confirmed this color, either by tapping on a
          *                       color with {@link Builder#setDismissOnColorSelected(boolean)} set

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MaterialColorPicker</string>
+
+    <string name="ok">ACEPTAR</string>
+    <string name="cancel">CANCELAR</string>
+    <string name="default_dialog_title">Elige un color</string>
+</resources>

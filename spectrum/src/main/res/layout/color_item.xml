@@ -6,6 +6,7 @@
     <ImageView
         android:id="@+id/selected_checkmark"
         android:layout_width="match_parent"
+        android:visibility="invisible"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:scaleType="fitXY"

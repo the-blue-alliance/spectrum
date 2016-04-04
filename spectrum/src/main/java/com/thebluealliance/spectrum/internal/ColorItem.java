@@ -110,7 +110,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mItemCheckmark.setVisibility(View.GONE);
+                    mItemCheckmark.setVisibility(View.INVISIBLE);
                     setItemCheckmarkAttributes(0.0f);
                 }
             }).start();
@@ -121,7 +121,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     }
 
     private void updateCheckmarkVisibility() {
-        mItemCheckmark.setVisibility(mIsSelected ? View.VISIBLE : View.GONE);
+        mItemCheckmark.setVisibility(mIsSelected ? View.VISIBLE : View.INVISIBLE);
         setItemCheckmarkAttributes(1.0f);
     }
 

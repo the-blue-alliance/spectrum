@@ -9,7 +9,7 @@ Spectrum is an Android library that makes it easy to let your user pick from a l
 
 ## Download
 
-Download with Gradle:
+#Download with Gradle:
 ```groovy
 compile 'com.thebluealliance:spectrum:0.2.0'
 ```
@@ -19,7 +19,6 @@ The library is hosted on both Bintray (JCenter) and Maven Central; use whichever
 repositories {
   jcenter()
 }
-```
 
 ## Features
 - `SpectrumDialog` with Builder pattern

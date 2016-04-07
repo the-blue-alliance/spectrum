@@ -70,7 +70,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
 
         LayoutInflater.from(getContext()).inflate(R.layout.color_item, this, true);
         mItemCheckmark = (ImageView) findViewById(R.id.selected_checkmark);
-        mItemCheckmark.setColorFilter(isDarkBackground() ? Color.WHITE : Color.BLACK);
+        mItemCheckmark.setColorFilter(ColorUtil.isColorDark(mColor) ? Color.WHITE : Color.BLACK);
     }
 
     public void setChecked(boolean checked) {
@@ -146,22 +146,6 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
         mEventBus.post(new SelectedColorChangedEvent(mColor));
     }
 
-    /**
-     * Computes if the background color is considered "dark"; used to determine if the foreground
-     * image (the checkmark) should be white or black.
-     *
-     * Based on http://stackoverflow.com/a/24810681/2444312.
-     *
-     * @return true if the background is "dark"
-     */
-    private boolean isDarkBackground() {
-        int r = Color.red(mColor);
-        int g = Color.green(mColor);
-        int b = Color.blue(mColor);
-        double brightness = (r * 0.299) + (g * 0.587) + (b * 0.114);
-        return brightness < 160;
-    }
-
     private Drawable createBackgroundDrawable() {
         GradientDrawable mask = new GradientDrawable();
         mask.setShape(GradientDrawable.OVAL);
@@ -176,7 +160,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
             mask.setShape(GradientDrawable.OVAL);
             mask.setColor(Color.BLACK);
 
-            return new RippleDrawable(ColorStateList.valueOf(getRippleColor(mColor)), null, mask);
+            return new RippleDrawable(ColorStateList.valueOf(ColorUtil.getRippleColor(mColor)), null, mask);
         } else {
             // Use a translucent foreground
             StateListDrawable foreground = new StateListDrawable();
@@ -186,19 +170,12 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
 
             GradientDrawable mask = new GradientDrawable();
             mask.setShape(GradientDrawable.OVAL);
-            mask.setColor(getRippleColor(mColor));
+            mask.setColor(ColorUtil.getRippleColor(mColor));
             foreground.addState(new int[]{android.R.attr.state_pressed}, mask);
 
             foreground.addState(new int[]{}, new ColorDrawable(Color.TRANSPARENT));
 
             return foreground;
         }
-    }
-
-    private int getRippleColor(int color) {
-        float[] hsv = new float[3];
-        Color.colorToHSV(color, hsv);
-        hsv[2] = hsv[2] * 0.5f;
-        return Color.HSVToColor(hsv);
     }
 }

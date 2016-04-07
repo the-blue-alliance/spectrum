@@ -1,6 +1,7 @@
 package com.thebluealliance.spectrum;
 
 import com.thebluealliance.spectrum.internal.ColorItem;
+import com.thebluealliance.spectrum.internal.ColorUtil;
 import com.thebluealliance.spectrum.internal.SelectedColorChangedEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -273,5 +274,14 @@ public class SpectrumPalette extends LinearLayout {
 
     public interface OnColorSelectedListener {
         void onColorSelected(@ColorInt int color);
+    }
+
+    /**
+     * Returns true if for the given color a dark checkmark is used.
+     * @param color
+     * @return true if color is "dark"
+     */
+    public boolean usesDarkCheckmark(@ColorInt int color){
+        return ColorUtil.isColorDark(color);
     }
 }

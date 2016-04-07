@@ -150,9 +150,9 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
      * @return true if the background is "dark"
      */
     private boolean isDarkBackground() {
-        int r = (mColor >> 16) & 0xFF;
-        int g = (mColor >> 8) & 0xFF;
-        int b = mColor & 0xFF;
+        int r = Color.red(mColor);
+        int g = Color.green(mColor);
+        int b = Color.blue(mColor);
         double brightness = (r * 0.299) + (g * 0.587) + (b * 0.114);
         return brightness < 160;
     }

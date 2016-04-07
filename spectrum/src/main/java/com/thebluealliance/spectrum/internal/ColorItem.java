@@ -58,14 +58,19 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
 
     private void init() {
         setForeground(createForegroundDrawable());
-        setBackgroundDrawable(createBackgroundDrawable());
+
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            setBackgroundDrawable(createBackgroundDrawable());
+        } else {
+            setBackground(createBackgroundDrawable());
+        }
 
         mEventBus.register(this);
         setOnClickListener(this);
 
         LayoutInflater.from(getContext()).inflate(R.layout.color_item, this, true);
         mItemCheckmark = (ImageView) findViewById(R.id.selected_checkmark);
-        mItemCheckmark.setImageResource(isDarkBackground() ? R.drawable.ic_check_white_24dp : R.drawable.ic_check_black_24dp);
+        mItemCheckmark.setColorFilter(isDarkBackground() ? Color.WHITE : Color.BLACK);
     }
 
     public void setChecked(boolean checked) {

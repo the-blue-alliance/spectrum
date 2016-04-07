@@ -10,7 +10,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -32,8 +31,10 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     private EventBus mEventBus;
 
     private ImageView mItemCheckmark;
-    private @ColorInt int mColor;
+    @ColorInt
+    private int mColor;
     private boolean mIsSelected = false;
+    private int mStrokeWidth = 0;
 
     public ColorItem(Context context, @ColorInt int color, boolean isSelected, EventBus eventBus) {
         super(context);
@@ -56,14 +57,17 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
         init();
     }
 
-    private void init() {
+    private void updateDrawables() {
         setForeground(createForegroundDrawable());
-
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
             setBackgroundDrawable(createBackgroundDrawable());
         } else {
             setBackground(createBackgroundDrawable());
         }
+    }
+
+    private void init() {
+        updateDrawables();
 
         mEventBus.register(this);
         setOnClickListener(this);
@@ -71,6 +75,16 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
         LayoutInflater.from(getContext()).inflate(R.layout.color_item, this, true);
         mItemCheckmark = (ImageView) findViewById(R.id.selected_checkmark);
         mItemCheckmark.setColorFilter(ColorUtil.isColorDark(mColor) ? Color.WHITE : Color.BLACK);
+    }
+
+    /**
+     * Change the size of the outlining
+     *
+     * @param width in px
+     */
+    public void setStrokeWidth(int width) {
+        mStrokeWidth = width;
+        updateDrawables();
     }
 
     public void setChecked(boolean checked) {
@@ -90,11 +104,11 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
                     .setDuration(250)
                     .setListener(new AnimatorListenerAdapter() {
 
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    setItemCheckmarkAttributes(1.0f);
-                }
-            }).start();
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            setItemCheckmarkAttributes(1.0f);
+                        }
+                    }).start();
         } else if (oldChecked && !mIsSelected) {
             // Animate checkmark disappearance
 
@@ -108,12 +122,12 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
                     .setDuration(250)
                     .setListener(new AnimatorListenerAdapter() {
 
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mItemCheckmark.setVisibility(View.INVISIBLE);
-                    setItemCheckmarkAttributes(0.0f);
-                }
-            }).start();
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mItemCheckmark.setVisibility(View.INVISIBLE);
+                            setItemCheckmarkAttributes(0.0f);
+                        }
+                    }).start();
         } else {
             // Just sync the view's visibility
             updateCheckmarkVisibility();
@@ -149,6 +163,9 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     private Drawable createBackgroundDrawable() {
         GradientDrawable mask = new GradientDrawable();
         mask.setShape(GradientDrawable.OVAL);
+        if (mStrokeWidth != 0) {
+            mask.setStroke(mStrokeWidth, ColorUtil.isColorDark(mColor) ? Color.WHITE : Color.BLACK);
+        }
         mask.setColor(mColor);
         return mask;
     }

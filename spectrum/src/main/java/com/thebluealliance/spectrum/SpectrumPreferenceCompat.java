@@ -19,7 +19,7 @@ import android.view.View;
 
 /**
  * A version of {@link SpectrumPreference} meant to be used with the support library Preferences.
- *
+ * <p/>
  * This preference should be hosted and displayed by a {@link PreferenceFragmentCompat} fragment.
  * Because the support library preferences work differently than normal preferences, you have to
  * subclass {@link PreferenceFragmentCompat} and override
@@ -29,7 +29,7 @@ import android.view.View;
  * If that method returns true, the preference was an instance of {@link SpectrumPreferenceCompat}
  * and the dialog was displayed. If it returns false, you should call through to the super method
  * to ensure proper behavior with other preference types. An example of this is shown below.
- *
+ * <p/>
  * <pre>{@code
  * public void onDisplayPreferenceDialog(Preference preference) {
  *     if (!SpectrumPreferenceCompat.onDisplayPreferenceDialog(preference, this)) {
@@ -43,13 +43,16 @@ public class SpectrumPreferenceCompat extends DialogPreference {
 
     private static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
-    private static final @ColorInt int DEFAULT_VALUE = Color.BLACK;
-
-    private @ColorInt int[] mColors;
-    private @ColorInt int mCurrentValue;
+    @ColorInt
+    private static final int DEFAULT_VALUE = Color.BLACK;
+    @ColorInt
+    private int[] mColors;
+    @ColorInt
+    private int mCurrentValue;
     private boolean mCloseOnSelected = true;
     private boolean mValueSet = false;
     private View mColorView;
+    private int mStrokeWidth = 0;
 
     public SpectrumPreferenceCompat(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -62,6 +65,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
                 mColors = getContext().getResources().getIntArray(id);
             }
             mCloseOnSelected = a.getBoolean(R.styleable.SpectrumPreference_spectrum_closeOnSelected, true);
+            mStrokeWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_strokeWidth, 0);
         } finally {
             a.recycle();
         }
@@ -100,7 +104,8 @@ public class SpectrumPreferenceCompat extends DialogPreference {
      *
      * @return Array of colors
      */
-    public @ColorInt int[] getColors() {
+    @ColorInt
+    public int[] getColors() {
         return mColors;
     }
 
@@ -117,8 +122,8 @@ public class SpectrumPreferenceCompat extends DialogPreference {
     }
 
     /**
-     * @see #setCloseOnSelected(boolean)
      * @return true if the dialog will close automatically when a color is selected
+     * @see #setCloseOnSelected(boolean)
      */
     public boolean getCloseOnSelected() {
         return mCloseOnSelected;
@@ -128,11 +133,13 @@ public class SpectrumPreferenceCompat extends DialogPreference {
         if (mColorView == null) {
             return;
         }
+        ColorCircleDrawable drawable = new ColorCircleDrawable(mCurrentValue);
+        drawable.setStrokeWidth(mStrokeWidth);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mColorView.setBackground(new ColorCircleDrawable(mCurrentValue));
+            mColorView.setBackground(drawable);
         } else {
             // noinspection deprecation
-            mColorView.setBackgroundDrawable(new ColorCircleDrawable(mCurrentValue));
+            mColorView.setBackgroundDrawable(drawable);
         }
     }
 
@@ -167,7 +174,12 @@ public class SpectrumPreferenceCompat extends DialogPreference {
         }
     }
 
-    public @ColorInt int getValue() {
+    public int getStrokeWidth() {
+        return mStrokeWidth;
+    }
+
+    @ColorInt
+    public int getValue() {
         return mCurrentValue;
     }
 

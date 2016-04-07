@@ -16,13 +16,17 @@ import android.view.View;
 
 public class SpectrumPreference extends DialogPreference {
 
-    private static final @ColorInt int DEFAULT_VALUE = Color.BLACK;
-
-    private @ColorInt int[] mColors;
-    private @ColorInt int mCurrentValue;
+    private static final
+    @ColorInt
+    int DEFAULT_VALUE = Color.BLACK;
+    @ColorInt
+    private int[] mColors;
+    @ColorInt
+    private int mCurrentValue;
     private boolean mCloseOnSelected = true;
     private SpectrumPalette mColorPalette;
     private View mColorView;
+    private int mStrokeWidth = 0;
 
     public SpectrumPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,6 +39,7 @@ public class SpectrumPreference extends DialogPreference {
                 mColors = getContext().getResources().getIntArray(id);
             }
             mCloseOnSelected = a.getBoolean(R.styleable.SpectrumPreference_spectrum_closeOnSelected, true);
+            mStrokeWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_strokeWidth, 0);
         } finally {
             a.recycle();
         }
@@ -65,8 +70,8 @@ public class SpectrumPreference extends DialogPreference {
      *
      * @return Array of colors
      */
-    public
-    @ColorInt int[] getColors() {
+    @ColorInt
+    public int[] getColors() {
         return mColors;
     }
 
@@ -83,8 +88,8 @@ public class SpectrumPreference extends DialogPreference {
     }
 
     /**
-     * @see #setCloseOnSelected(boolean)
      * @return true if the dialog will close automatically when a color is selected
+     * @see #setCloseOnSelected(boolean)
      */
     public boolean getCloseOnSelected() {
         return mCloseOnSelected;
@@ -112,11 +117,13 @@ public class SpectrumPreference extends DialogPreference {
         if (mColorView == null) {
             return;
         }
+        ColorCircleDrawable drawable = new ColorCircleDrawable(mCurrentValue);
+        drawable.setStrokeWidth(mStrokeWidth);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mColorView.setBackground(new ColorCircleDrawable(mCurrentValue));
+            mColorView.setBackground(drawable);
         } else {
             // noinspection deprecation
-            mColorView.setBackgroundDrawable(new ColorCircleDrawable(mCurrentValue));
+            mColorView.setBackgroundDrawable(drawable);
         }
     }
 
@@ -130,6 +137,7 @@ public class SpectrumPreference extends DialogPreference {
 
         mColorPalette = (SpectrumPalette) view.findViewById(R.id.palette);
         mColorPalette.setColors(mColors);
+        mColorPalette.setStrokeWidth(mStrokeWidth);
         mColorPalette.setSelectedColor(mCurrentValue);
         mColorPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
             @Override

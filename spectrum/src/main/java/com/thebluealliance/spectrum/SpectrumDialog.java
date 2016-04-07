@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +26,20 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private static final String KEY_SHOULD_DISMISS_ON_COLOR_SELECTED = "should_dismiss_on_color_selected";
     private static final String KEY_POSITIVE_BUTTON_TEXT = "positive_button_text";
     private static final String KEY_NEGATIVE_BUTTON_TEXT = "negative_button_text";
+    private static final String KEY_STROKE_WIDTH = "stroke_width";
 
     private CharSequence mTitle;
     private CharSequence mPositiveButtonText;
     private CharSequence mNegativeButtonText;
-    private @ColorInt int[] mColors;
-    private @ColorInt int mOriginalSelectedColor = -1;
-    private @ColorInt int mSelectedColor = -1;
+    @ColorInt
+    private int[] mColors;
+    @ColorInt
+    private int mOriginalSelectedColor = -1;
+    @ColorInt
+    private int mSelectedColor = -1;
     private boolean mShouldDismissOnColorSelected = true;
     private OnColorSelectedListener mListener;
+    private int mStrokeWidth = 0;
 
     public SpectrumDialog() {
         // Required empty constructor
@@ -70,8 +76,18 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         }
 
         /**
-         * Sets the text for the dialog's positive button.
+         * Change the size of the outlining
          *
+         * @param width in px
+         */
+        public Builder setStrokeWidth(int width) {
+            mArgs.putInt(KEY_STROKE_WIDTH, width);
+            return this;
+        }
+
+        /**
+         * Sets the text for the dialog's positive button.
+         * <p/>
          * Note that the positive button is only shown if you call
          * {@link #setDismissOnColorSelected(boolean)} to tell the dialog to not dismiss
          * automatically when the user selects a color.
@@ -85,7 +101,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
 
         /**
          * Sets the text for the dialog's positive button from the given resource ID.
-         *
+         * <p/>
          * Note that the positive button is only shown if you call
          * {@link #setDismissOnColorSelected(boolean)} to tell the dialog to not dismiss
          * automatically when the user selects a color.
@@ -161,14 +177,15 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          * @return This {@link Builder} for method chaining
          */
         public Builder setSelectedColorRes(@ColorRes int selectedColorRes) {
-            mArgs.putInt(KEY_SELECTED_COLOR, mContext.getResources().getColor(selectedColorRes));
-            mArgs.putInt(KEY_ORIGINAL_SELECTED_COLOR, mContext.getResources().getColor(selectedColorRes));
+            @ColorInt int color = ContextCompat.getColor(mContext, selectedColorRes);
+            mArgs.putInt(KEY_SELECTED_COLOR, color);
+            mArgs.putInt(KEY_ORIGINAL_SELECTED_COLOR, color);
             return this;
         }
 
         /**
          * Sets a listener to receive callbacks when the user interacts with the dialog.
-         *
+         * <p/>
          * If you want this dialog to work properly across orientation changes, you should call
          * {@link SpectrumDialog#setOnColorSelectedListener(OnColorSelectedListener)} when your
          * activity
@@ -271,6 +288,10 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             mNegativeButtonText = getContext().getText(android.R.string.cancel);
         }
 
+        if (args != null && args.containsKey(KEY_STROKE_WIDTH)) {
+            mStrokeWidth = args.getInt(KEY_STROKE_WIDTH);
+        }
+
         // Next, overwrite any appropriate values if present in the saved instance state
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_COLOR)) {
             mSelectedColor = savedInstanceState.getInt(KEY_SELECTED_COLOR);
@@ -319,6 +340,9 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         palette.setColors(mColors);
         palette.setSelectedColor(mSelectedColor);
         palette.setOnColorSelectedListener(this);
+        if (mStrokeWidth != 0) {
+            palette.setStrokeWidth(mStrokeWidth);
+        }
 
         builder.setView(view);
 
@@ -344,7 +368,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     public void onColorSelected(@ColorInt int color) {
         mSelectedColor = color;
         if (mShouldDismissOnColorSelected) {
-            if(mListener != null) {
+            if (mListener != null) {
                 mListener.onColorSelected(true, mSelectedColor);
             }
             dismiss();
@@ -372,7 +396,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          * Called when the user selects a color and closes the dialog. If
          * {@link Builder#setDismissOnColorSelected(boolean)} is set to false, this will only be
          * called once when the user confirms the color with the dialog's positive button.
-         *
+         * <p/>
          * Note that the user may cancel the dialog with the dialog's negative button, by tapping
          * outside the dialog, or with the system's "Back" button. In those cases, this callback
          * will still be called, but {@code positiveResult} will be {@code false}, and

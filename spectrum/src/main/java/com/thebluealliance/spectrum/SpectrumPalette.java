@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * General-purpose class that displays colors in a grid.
  */
@@ -26,10 +29,13 @@ public class SpectrumPalette extends LinearLayout {
 
     private int mColorItemDimension;
     private int mColorItemMargin;
-    private @ColorInt int[] mColors;
-    private @ColorInt int mSelectedColor;
+    @ColorInt
+    private int[] mColors;
+    @ColorInt
+    private int mSelectedColor;
     private OnColorSelectedListener mListener;
     private boolean mAutoPadding = false;
+    private int mStrokeWidth = 0;
     private int mComputedVerticalPadding = 0;
     private int mOriginalPaddingTop = 0;
     private int mOriginalPaddingBottom = 0;
@@ -40,6 +46,8 @@ public class SpectrumPalette extends LinearLayout {
     private boolean mViewInitialized = false;
 
     private EventBus mEventBus;
+
+    private List<ColorItem> mItems = new ArrayList<>();
 
     public SpectrumPalette(Context context) {
         super(context);
@@ -57,6 +65,7 @@ public class SpectrumPalette extends LinearLayout {
         }
 
         mAutoPadding = a.getBoolean(R.styleable.SpectrumPalette_spectrum_autoPadding, false);
+        mStrokeWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_strokeWidth, 0);
 
         a.recycle();
 
@@ -177,7 +186,8 @@ public class SpectrumPalette extends LinearLayout {
         setPadding(left, top, right, bottom);
     }
 
-    @Override public void setPadding(int left, int top, int right, int bottom) {
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
         super.setPadding(left, top, right, bottom);
         if (!mSetPaddingCalledInternally) {
             mOriginalPaddingTop = top;
@@ -253,6 +263,10 @@ public class SpectrumPalette extends LinearLayout {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mColorItemDimension, mColorItemDimension);
         params.setMargins(mColorItemMargin, mColorItemMargin, mColorItemMargin, mColorItemMargin);
         view.setLayoutParams(params);
+        if (mStrokeWidth != 0) {
+            view.setStrokeWidth(mStrokeWidth);
+        }
+        mItems.add(view);
         return view;
     }
 
@@ -278,10 +292,24 @@ public class SpectrumPalette extends LinearLayout {
 
     /**
      * Returns true if for the given color a dark checkmark is used.
+     *
      * @param color
      * @return true if color is "dark"
      */
-    public boolean usesDarkCheckmark(@ColorInt int color){
+    public boolean usesDarkCheckmark(@ColorInt int color) {
         return ColorUtil.isColorDark(color);
     }
+
+    /**
+     * Change the size of the outlining
+     *
+     * @param width in px
+     */
+    public void setStrokeWidth(int width) {
+        mStrokeWidth = width;
+        for (ColorItem item : mItems) {
+            item.setStrokeWidth(width);
+        }
+    }
+
 }

@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://github.com/the-blue-alliance/spectrum/'
     gitUrl = 'https://github.com/the-blue-alliance/spectrum.git'
 
-    libraryVersion = '0.2.1'
+    libraryVersion = '0.2.2'
     libraryVersionCode = buildVersionCode(libraryVersion)
 
     developerId = 'nwalters512'

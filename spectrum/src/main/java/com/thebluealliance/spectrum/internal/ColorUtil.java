@@ -26,8 +26,7 @@ public final class ColorUtil {
         return brightness < 160;
     }
 
-    @ColorInt
-    public static int getRippleColor(@ColorInt int color) {
+    @ColorInt public static int getRippleColor(@ColorInt int color) {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         hsv[2] = hsv[2] * 0.5f;

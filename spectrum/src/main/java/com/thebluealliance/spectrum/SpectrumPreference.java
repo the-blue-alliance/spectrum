@@ -16,13 +16,10 @@ import android.view.View;
 
 public class SpectrumPreference extends DialogPreference {
 
-    private static final
-    @ColorInt
-    int DEFAULT_VALUE = Color.BLACK;
-    @ColorInt
-    private int[] mColors;
-    @ColorInt
-    private int mCurrentValue;
+    private static final @ColorInt int DEFAULT_VALUE = Color.BLACK;
+
+    private @ColorInt int[] mColors;
+    private @ColorInt int mCurrentValue;
     private boolean mCloseOnSelected = true;
     private SpectrumPalette mColorPalette;
     private View mColorView;
@@ -70,8 +67,8 @@ public class SpectrumPreference extends DialogPreference {
      *
      * @return Array of colors
      */
-    @ColorInt
-    public int[] getColors() {
+    public
+    @ColorInt int[] getColors() {
         return mColors;
     }
 
@@ -88,8 +85,8 @@ public class SpectrumPreference extends DialogPreference {
     }
 
     /**
-     * @return true if the dialog will close automatically when a color is selected
      * @see #setCloseOnSelected(boolean)
+     * @return true if the dialog will close automatically when a color is selected
      */
     public boolean getCloseOnSelected() {
         return mCloseOnSelected;

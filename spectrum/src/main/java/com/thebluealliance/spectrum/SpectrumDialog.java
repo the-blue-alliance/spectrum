@@ -31,12 +31,9 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private CharSequence mTitle;
     private CharSequence mPositiveButtonText;
     private CharSequence mNegativeButtonText;
-    @ColorInt
-    private int[] mColors;
-    @ColorInt
-    private int mOriginalSelectedColor = -1;
-    @ColorInt
-    private int mSelectedColor = -1;
+    private @ColorInt int[] mColors;
+    private @ColorInt int mOriginalSelectedColor = -1;
+    private @ColorInt int mSelectedColor = -1;
     private boolean mShouldDismissOnColorSelected = true;
     private OnColorSelectedListener mListener;
     private int mBorderWidth = 0;
@@ -87,7 +84,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
 
         /**
          * Sets the text for the dialog's positive button.
-         * <p/>
+         *
          * Note that the positive button is only shown if you call
          * {@link #setDismissOnColorSelected(boolean)} to tell the dialog to not dismiss
          * automatically when the user selects a color.
@@ -101,7 +98,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
 
         /**
          * Sets the text for the dialog's positive button from the given resource ID.
-         * <p/>
+         *
          * Note that the positive button is only shown if you call
          * {@link #setDismissOnColorSelected(boolean)} to tell the dialog to not dismiss
          * automatically when the user selects a color.
@@ -185,7 +182,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
 
         /**
          * Sets a listener to receive callbacks when the user interacts with the dialog.
-         * <p/>
+         *
          * If you want this dialog to work properly across orientation changes, you should call
          * {@link SpectrumDialog#setOnColorSelectedListener(OnColorSelectedListener)} when your
          * activity
@@ -396,7 +393,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          * Called when the user selects a color and closes the dialog. If
          * {@link Builder#setDismissOnColorSelected(boolean)} is set to false, this will only be
          * called once when the user confirms the color with the dialog's positive button.
-         * <p/>
+         *
          * Note that the user may cancel the dialog with the dialog's negative button, by tapping
          * outside the dialog, or with the system's "Back" button. In those cases, this callback
          * will still be called, but {@code positiveResult} will be {@code false}, and

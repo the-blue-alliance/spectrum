@@ -29,10 +29,8 @@ public class SpectrumPalette extends LinearLayout {
 
     private int mColorItemDimension;
     private int mColorItemMargin;
-    @ColorInt
-    private int[] mColors;
-    @ColorInt
-    private int mSelectedColor;
+    private @ColorInt int[] mColors;
+    private @ColorInt int mSelectedColor;
     private OnColorSelectedListener mListener;
     private boolean mAutoPadding = false;
     private int mBorderWidth = 0;
@@ -186,8 +184,7 @@ public class SpectrumPalette extends LinearLayout {
         setPadding(left, top, right, bottom);
     }
 
-    @Override
-    public void setPadding(int left, int top, int right, int bottom) {
+    @Override public void setPadding(int left, int top, int right, int bottom) {
         super.setPadding(left, top, right, bottom);
         if (!mSetPaddingCalledInternally) {
             mOriginalPaddingTop = top;

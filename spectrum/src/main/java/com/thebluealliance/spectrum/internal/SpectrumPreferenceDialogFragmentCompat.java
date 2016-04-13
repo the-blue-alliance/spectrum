@@ -14,9 +14,7 @@ import android.view.View;
 public class SpectrumPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 
     private SpectrumPalette mColorPalette;
-    @ColorInt
-    private
-    int mCurrentValue;
+    private @ColorInt int mCurrentValue;
 
     public static SpectrumPreferenceDialogFragmentCompat newInstance(String key) {
         final SpectrumPreferenceDialogFragmentCompat fragment =
@@ -31,8 +29,7 @@ public class SpectrumPreferenceDialogFragmentCompat extends PreferenceDialogFrag
         return (SpectrumPreferenceCompat) getPreference();
     }
 
-    @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+    @Override protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
         // Don't show the positive button; clicking a color will be the "positive" action

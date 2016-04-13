@@ -31,8 +31,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     private EventBus mEventBus;
 
     private ImageView mItemCheckmark;
-    @ColorInt
-    private int mColor;
+    private @ColorInt int mColor;
     private boolean mIsSelected = false;
     private int mBorderWidth = 0;
 

@@ -19,7 +19,7 @@ import android.view.View;
 
 /**
  * A version of {@link SpectrumPreference} meant to be used with the support library Preferences.
- * <p/>
+ *
  * This preference should be hosted and displayed by a {@link PreferenceFragmentCompat} fragment.
  * Because the support library preferences work differently than normal preferences, you have to
  * subclass {@link PreferenceFragmentCompat} and override
@@ -29,7 +29,7 @@ import android.view.View;
  * If that method returns true, the preference was an instance of {@link SpectrumPreferenceCompat}
  * and the dialog was displayed. If it returns false, you should call through to the super method
  * to ensure proper behavior with other preference types. An example of this is shown below.
- * <p/>
+ *
  * <pre>{@code
  * public void onDisplayPreferenceDialog(Preference preference) {
  *     if (!SpectrumPreferenceCompat.onDisplayPreferenceDialog(preference, this)) {
@@ -43,12 +43,10 @@ public class SpectrumPreferenceCompat extends DialogPreference {
 
     private static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
-    @ColorInt
-    private static final int DEFAULT_VALUE = Color.BLACK;
-    @ColorInt
-    private int[] mColors;
-    @ColorInt
-    private int mCurrentValue;
+    private static final @ColorInt int DEFAULT_VALUE = Color.BLACK;
+
+    private @ColorInt int[] mColors;
+    private @ColorInt int mCurrentValue;
     private boolean mCloseOnSelected = true;
     private boolean mValueSet = false;
     private View mColorView;
@@ -104,8 +102,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
      *
      * @return Array of colors
      */
-    @ColorInt
-    public int[] getColors() {
+    public @ColorInt int[] getColors() {
         return mColors;
     }
 
@@ -122,8 +119,8 @@ public class SpectrumPreferenceCompat extends DialogPreference {
     }
 
     /**
-     * @return true if the dialog will close automatically when a color is selected
      * @see #setCloseOnSelected(boolean)
+     * @return true if the dialog will close automatically when a color is selected
      */
     public boolean getCloseOnSelected() {
         return mCloseOnSelected;

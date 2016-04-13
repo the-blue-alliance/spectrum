@@ -10,7 +10,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -34,6 +33,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     private ImageView mItemCheckmark;
     private @ColorInt int mColor;
     private boolean mIsSelected = false;
+    private int mBorderWidth = 0;
 
     public ColorItem(Context context, @ColorInt int color, boolean isSelected, EventBus eventBus) {
         super(context);
@@ -56,16 +56,34 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
         init();
     }
 
-    private void init() {
+    private void updateDrawables() {
         setForeground(createForegroundDrawable());
-        setBackgroundDrawable(createBackgroundDrawable());
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            setBackgroundDrawable(createBackgroundDrawable());
+        } else {
+            setBackground(createBackgroundDrawable());
+        }
+    }
+
+    private void init() {
+        updateDrawables();
 
         mEventBus.register(this);
         setOnClickListener(this);
 
         LayoutInflater.from(getContext()).inflate(R.layout.color_item, this, true);
         mItemCheckmark = (ImageView) findViewById(R.id.selected_checkmark);
-        mItemCheckmark.setImageResource(isDarkBackground() ? R.drawable.ic_check_white_24dp : R.drawable.ic_check_black_24dp);
+        mItemCheckmark.setColorFilter(ColorUtil.isColorDark(mColor) ? Color.WHITE : Color.BLACK);
+    }
+
+    /**
+     * Change the size of the outlining
+     *
+     * @param width in px
+     */
+    public void setBorderWidth(int width) {
+        mBorderWidth = width;
+        updateDrawables();
     }
 
     public void setChecked(boolean checked) {
@@ -85,11 +103,11 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
                     .setDuration(250)
                     .setListener(new AnimatorListenerAdapter() {
 
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    setItemCheckmarkAttributes(1.0f);
-                }
-            }).start();
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            setItemCheckmarkAttributes(1.0f);
+                        }
+                    }).start();
         } else if (oldChecked && !mIsSelected) {
             // Animate checkmark disappearance
 
@@ -103,12 +121,12 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
                     .setDuration(250)
                     .setListener(new AnimatorListenerAdapter() {
 
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mItemCheckmark.setVisibility(View.INVISIBLE);
-                    setItemCheckmarkAttributes(0.0f);
-                }
-            }).start();
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mItemCheckmark.setVisibility(View.INVISIBLE);
+                            setItemCheckmarkAttributes(0.0f);
+                        }
+                    }).start();
         } else {
             // Just sync the view's visibility
             updateCheckmarkVisibility();
@@ -141,25 +159,12 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
         mEventBus.post(new SelectedColorChangedEvent(mColor));
     }
 
-    /**
-     * Computes if the background color is considered "dark"; used to determine if the foreground
-     * image (the checkmark) should be white or black.
-     *
-     * Based on http://stackoverflow.com/a/24810681/2444312.
-     *
-     * @return true if the background is "dark"
-     */
-    private boolean isDarkBackground() {
-        int r = (mColor >> 16) & 0xFF;
-        int g = (mColor >> 8) & 0xFF;
-        int b = mColor & 0xFF;
-        double brightness = (r * 0.299) + (g * 0.587) + (b * 0.114);
-        return brightness < 160;
-    }
-
     private Drawable createBackgroundDrawable() {
         GradientDrawable mask = new GradientDrawable();
         mask.setShape(GradientDrawable.OVAL);
+        if (mBorderWidth != 0) {
+            mask.setStroke(mBorderWidth, ColorUtil.isColorDark(mColor) ? Color.WHITE : Color.BLACK);
+        }
         mask.setColor(mColor);
         return mask;
     }
@@ -171,7 +176,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
             mask.setShape(GradientDrawable.OVAL);
             mask.setColor(Color.BLACK);
 
-            return new RippleDrawable(ColorStateList.valueOf(getRippleColor(mColor)), null, mask);
+            return new RippleDrawable(ColorStateList.valueOf(ColorUtil.getRippleColor(mColor)), null, mask);
         } else {
             // Use a translucent foreground
             StateListDrawable foreground = new StateListDrawable();
@@ -181,19 +186,12 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
 
             GradientDrawable mask = new GradientDrawable();
             mask.setShape(GradientDrawable.OVAL);
-            mask.setColor(getRippleColor(mColor));
+            mask.setColor(ColorUtil.getRippleColor(mColor));
             foreground.addState(new int[]{android.R.attr.state_pressed}, mask);
 
             foreground.addState(new int[]{}, new ColorDrawable(Color.TRANSPARENT));
 
             return foreground;
         }
-    }
-
-    private int getRippleColor(int color) {
-        float[] hsv = new float[3];
-        Color.colorToHSV(color, hsv);
-        hsv[2] = hsv[2] * 0.5f;
-        return Color.HSVToColor(hsv);
     }
 }

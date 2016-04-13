@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private static final String KEY_SHOULD_DISMISS_ON_COLOR_SELECTED = "should_dismiss_on_color_selected";
     private static final String KEY_POSITIVE_BUTTON_TEXT = "positive_button_text";
     private static final String KEY_NEGATIVE_BUTTON_TEXT = "negative_button_text";
+    private static final String KEY_BORDER_WIDTH = "border_width";
 
     private CharSequence mTitle;
     private CharSequence mPositiveButtonText;
@@ -34,6 +36,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private @ColorInt int mSelectedColor = -1;
     private boolean mShouldDismissOnColorSelected = true;
     private OnColorSelectedListener mListener;
+    private int mBorderWidth = 0;
 
     public SpectrumDialog() {
         // Required empty constructor
@@ -66,6 +69,16 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          */
         public Builder setTitle(@StringRes int titleResId) {
             mArgs.putCharSequence(KEY_TITLE, mContext.getText(titleResId));
+            return this;
+        }
+
+        /**
+         * Change the size of the outlining
+         *
+         * @param width in px
+         */
+        public Builder setBorderWidth(int width) {
+            mArgs.putInt(KEY_BORDER_WIDTH, width);
             return this;
         }
 
@@ -161,8 +174,9 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          * @return This {@link Builder} for method chaining
          */
         public Builder setSelectedColorRes(@ColorRes int selectedColorRes) {
-            mArgs.putInt(KEY_SELECTED_COLOR, mContext.getResources().getColor(selectedColorRes));
-            mArgs.putInt(KEY_ORIGINAL_SELECTED_COLOR, mContext.getResources().getColor(selectedColorRes));
+            @ColorInt int color = ContextCompat.getColor(mContext, selectedColorRes);
+            mArgs.putInt(KEY_SELECTED_COLOR, color);
+            mArgs.putInt(KEY_ORIGINAL_SELECTED_COLOR, color);
             return this;
         }
 
@@ -271,6 +285,10 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             mNegativeButtonText = getContext().getText(android.R.string.cancel);
         }
 
+        if (args != null && args.containsKey(KEY_BORDER_WIDTH)) {
+            mBorderWidth = args.getInt(KEY_BORDER_WIDTH);
+        }
+
         // Next, overwrite any appropriate values if present in the saved instance state
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_COLOR)) {
             mSelectedColor = savedInstanceState.getInt(KEY_SELECTED_COLOR);
@@ -319,6 +337,9 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         palette.setColors(mColors);
         palette.setSelectedColor(mSelectedColor);
         palette.setOnColorSelectedListener(this);
+        if (mBorderWidth != 0) {
+            palette.setBorderWidth(mBorderWidth);
+        }
 
         builder.setView(view);
 
@@ -344,7 +365,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     public void onColorSelected(@ColorInt int color) {
         mSelectedColor = color;
         if (mShouldDismissOnColorSelected) {
-            if(mListener != null) {
+            if (mListener != null) {
                 mListener.onColorSelected(true, mSelectedColor);
             }
             dismiss();

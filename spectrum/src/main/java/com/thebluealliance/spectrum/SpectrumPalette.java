@@ -1,6 +1,7 @@
 package com.thebluealliance.spectrum;
 
 import com.thebluealliance.spectrum.internal.ColorItem;
+import com.thebluealliance.spectrum.internal.ColorUtil;
 import com.thebluealliance.spectrum.internal.SelectedColorChangedEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -16,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * General-purpose class that displays colors in a grid.
  */
@@ -29,6 +33,7 @@ public class SpectrumPalette extends LinearLayout {
     private @ColorInt int mSelectedColor;
     private OnColorSelectedListener mListener;
     private boolean mAutoPadding = false;
+    private int mBorderWidth = 0;
     private int mComputedVerticalPadding = 0;
     private int mOriginalPaddingTop = 0;
     private int mOriginalPaddingBottom = 0;
@@ -39,6 +44,8 @@ public class SpectrumPalette extends LinearLayout {
     private boolean mViewInitialized = false;
 
     private EventBus mEventBus;
+
+    private List<ColorItem> mItems = new ArrayList<>();
 
     public SpectrumPalette(Context context) {
         super(context);
@@ -56,6 +63,7 @@ public class SpectrumPalette extends LinearLayout {
         }
 
         mAutoPadding = a.getBoolean(R.styleable.SpectrumPalette_spectrum_autoPadding, false);
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_borderWidth, 0);
 
         a.recycle();
 
@@ -252,6 +260,10 @@ public class SpectrumPalette extends LinearLayout {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mColorItemDimension, mColorItemDimension);
         params.setMargins(mColorItemMargin, mColorItemMargin, mColorItemMargin, mColorItemMargin);
         view.setLayoutParams(params);
+        if (mBorderWidth != 0) {
+            view.setBorderWidth(mBorderWidth);
+        }
+        mItems.add(view);
         return view;
     }
 
@@ -274,4 +286,27 @@ public class SpectrumPalette extends LinearLayout {
     public interface OnColorSelectedListener {
         void onColorSelected(@ColorInt int color);
     }
+
+    /**
+     * Returns true if for the given color a dark checkmark is used.
+     *
+     * @param color
+     * @return true if color is "dark"
+     */
+    public boolean usesDarkCheckmark(@ColorInt int color) {
+        return ColorUtil.isColorDark(color);
+    }
+
+    /**
+     * Change the size of the outlining
+     *
+     * @param width in px
+     */
+    public void setBorderWidth(int width) {
+        mBorderWidth = width;
+        for (ColorItem item : mItems) {
+            item.setBorderWidth(width);
+        }
+    }
+
 }

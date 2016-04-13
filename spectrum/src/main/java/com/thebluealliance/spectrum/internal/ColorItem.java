@@ -34,7 +34,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     @ColorInt
     private int mColor;
     private boolean mIsSelected = false;
-    private int mStrokeWidth = 0;
+    private int mBorderWidth = 0;
 
     public ColorItem(Context context, @ColorInt int color, boolean isSelected, EventBus eventBus) {
         super(context);
@@ -82,8 +82,8 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
      *
      * @param width in px
      */
-    public void setStrokeWidth(int width) {
-        mStrokeWidth = width;
+    public void setBorderWidth(int width) {
+        mBorderWidth = width;
         updateDrawables();
     }
 
@@ -163,8 +163,8 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     private Drawable createBackgroundDrawable() {
         GradientDrawable mask = new GradientDrawable();
         mask.setShape(GradientDrawable.OVAL);
-        if (mStrokeWidth != 0) {
-            mask.setStroke(mStrokeWidth, ColorUtil.isColorDark(mColor) ? Color.WHITE : Color.BLACK);
+        if (mBorderWidth != 0) {
+            mask.setStroke(mBorderWidth, ColorUtil.isColorDark(mColor) ? Color.WHITE : Color.BLACK);
         }
         mask.setColor(mColor);
         return mask;

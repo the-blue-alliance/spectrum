@@ -26,7 +26,7 @@ public class SpectrumPreference extends DialogPreference {
     private boolean mCloseOnSelected = true;
     private SpectrumPalette mColorPalette;
     private View mColorView;
-    private int mStrokeWidth = 0;
+    private int mBorderWidth = 0;
 
     public SpectrumPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -39,7 +39,7 @@ public class SpectrumPreference extends DialogPreference {
                 mColors = getContext().getResources().getIntArray(id);
             }
             mCloseOnSelected = a.getBoolean(R.styleable.SpectrumPreference_spectrum_closeOnSelected, true);
-            mStrokeWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_strokeWidth, 0);
+            mBorderWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_borderWidth, 0);
         } finally {
             a.recycle();
         }
@@ -118,7 +118,7 @@ public class SpectrumPreference extends DialogPreference {
             return;
         }
         ColorCircleDrawable drawable = new ColorCircleDrawable(mCurrentValue);
-        drawable.setStrokeWidth(mStrokeWidth);
+        drawable.setBorderWidth(mBorderWidth);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mColorView.setBackground(drawable);
         } else {
@@ -137,7 +137,7 @@ public class SpectrumPreference extends DialogPreference {
 
         mColorPalette = (SpectrumPalette) view.findViewById(R.id.palette);
         mColorPalette.setColors(mColors);
-        mColorPalette.setStrokeWidth(mStrokeWidth);
+        mColorPalette.setBorderWidth(mBorderWidth);
         mColorPalette.setSelectedColor(mCurrentValue);
         mColorPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
             @Override

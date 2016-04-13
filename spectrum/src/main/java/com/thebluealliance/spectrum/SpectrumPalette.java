@@ -35,7 +35,7 @@ public class SpectrumPalette extends LinearLayout {
     private int mSelectedColor;
     private OnColorSelectedListener mListener;
     private boolean mAutoPadding = false;
-    private int mStrokeWidth = 0;
+    private int mBorderWidth = 0;
     private int mComputedVerticalPadding = 0;
     private int mOriginalPaddingTop = 0;
     private int mOriginalPaddingBottom = 0;
@@ -65,7 +65,7 @@ public class SpectrumPalette extends LinearLayout {
         }
 
         mAutoPadding = a.getBoolean(R.styleable.SpectrumPalette_spectrum_autoPadding, false);
-        mStrokeWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_strokeWidth, 0);
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_borderWidth, 0);
 
         a.recycle();
 
@@ -263,8 +263,8 @@ public class SpectrumPalette extends LinearLayout {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mColorItemDimension, mColorItemDimension);
         params.setMargins(mColorItemMargin, mColorItemMargin, mColorItemMargin, mColorItemMargin);
         view.setLayoutParams(params);
-        if (mStrokeWidth != 0) {
-            view.setStrokeWidth(mStrokeWidth);
+        if (mBorderWidth != 0) {
+            view.setBorderWidth(mBorderWidth);
         }
         mItems.add(view);
         return view;
@@ -305,10 +305,10 @@ public class SpectrumPalette extends LinearLayout {
      *
      * @param width in px
      */
-    public void setStrokeWidth(int width) {
-        mStrokeWidth = width;
+    public void setBorderWidth(int width) {
+        mBorderWidth = width;
         for (ColorItem item : mItems) {
-            item.setStrokeWidth(width);
+            item.setBorderWidth(width);
         }
     }
 

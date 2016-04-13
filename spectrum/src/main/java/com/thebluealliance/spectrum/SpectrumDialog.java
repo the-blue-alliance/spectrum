@@ -26,7 +26,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private static final String KEY_SHOULD_DISMISS_ON_COLOR_SELECTED = "should_dismiss_on_color_selected";
     private static final String KEY_POSITIVE_BUTTON_TEXT = "positive_button_text";
     private static final String KEY_NEGATIVE_BUTTON_TEXT = "negative_button_text";
-    private static final String KEY_STROKE_WIDTH = "stroke_width";
+    private static final String KEY_BORDER_WIDTH = "border_width";
 
     private CharSequence mTitle;
     private CharSequence mPositiveButtonText;
@@ -39,7 +39,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private int mSelectedColor = -1;
     private boolean mShouldDismissOnColorSelected = true;
     private OnColorSelectedListener mListener;
-    private int mStrokeWidth = 0;
+    private int mBorderWidth = 0;
 
     public SpectrumDialog() {
         // Required empty constructor
@@ -80,8 +80,8 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          *
          * @param width in px
          */
-        public Builder setStrokeWidth(int width) {
-            mArgs.putInt(KEY_STROKE_WIDTH, width);
+        public Builder setBorderWidth(int width) {
+            mArgs.putInt(KEY_BORDER_WIDTH, width);
             return this;
         }
 
@@ -288,8 +288,8 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             mNegativeButtonText = getContext().getText(android.R.string.cancel);
         }
 
-        if (args != null && args.containsKey(KEY_STROKE_WIDTH)) {
-            mStrokeWidth = args.getInt(KEY_STROKE_WIDTH);
+        if (args != null && args.containsKey(KEY_BORDER_WIDTH)) {
+            mBorderWidth = args.getInt(KEY_BORDER_WIDTH);
         }
 
         // Next, overwrite any appropriate values if present in the saved instance state
@@ -340,8 +340,8 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         palette.setColors(mColors);
         palette.setSelectedColor(mSelectedColor);
         palette.setOnColorSelectedListener(this);
-        if (mStrokeWidth != 0) {
-            palette.setStrokeWidth(mStrokeWidth);
+        if (mBorderWidth != 0) {
+            palette.setBorderWidth(mBorderWidth);
         }
 
         builder.setView(view);

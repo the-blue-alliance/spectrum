@@ -12,7 +12,7 @@ import android.support.annotation.ColorInt;
 public class ColorCircleDrawable extends Drawable {
     private final Paint mPaint;
     private int mRadius = 0;
-    private int mStrokeWidth = 0;
+    private int mBorderWidth = 0;
     private final Paint mOutlinePaint;
 
     public ColorCircleDrawable(final @ColorInt int color) {
@@ -33,17 +33,17 @@ public class ColorCircleDrawable extends Drawable {
      *
      * @param width in px
      */
-    public void setStrokeWidth(int width) {
-        mStrokeWidth = width;
+    public void setBorderWidth(int width) {
+        mBorderWidth = width;
         invalidateSelf();
     }
 
     @Override
     public void draw(final Canvas canvas) {
         final Rect bounds = getBounds();
-        if (mStrokeWidth != 0) {
+        if (mBorderWidth != 0) {
             canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius, mOutlinePaint);
-            canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius - mStrokeWidth, mPaint);
+            canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius - mBorderWidth, mPaint);
         } else {
             canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius, mPaint);
         }

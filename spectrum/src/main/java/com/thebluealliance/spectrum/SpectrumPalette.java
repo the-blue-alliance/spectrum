@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -326,11 +327,16 @@ public class SpectrumPalette extends LinearLayout {
      */
     public void setFixedColumnCount(int columnCount) {
         if (columnCount > 0) {
+            Log.d("spectrum", "set column count to " + columnCount);
             mHasFixedColumnCount = true;
             mFixedColumnCount = columnCount;
+            requestLayout();
+            invalidate();
         } else {
             mHasFixedColumnCount = false;
             mFixedColumnCount = -1;
+            requestLayout();
+            invalidate();
         }
     }
 

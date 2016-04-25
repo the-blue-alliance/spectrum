@@ -34,6 +34,9 @@ public class ColorCircleDrawable extends Drawable {
      * @param width in px
      */
     public void setBorderWidth(int width) {
+        if (width < 0) {
+            width = 0;
+        }
         mBorderWidth = width;
         invalidateSelf();
     }

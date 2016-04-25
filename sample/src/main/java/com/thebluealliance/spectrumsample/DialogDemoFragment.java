@@ -37,6 +37,13 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                 return true;
             }
         });
+
+        findPreference("demo_dialog_4").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override public boolean onPreferenceClick(Preference preference) {
+                showDialog4();
+                return true;
+            }
+        });
     }
 
     private void showDialog1() {
@@ -47,7 +54,7 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                 .setBorderWidth(2)
                 .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
                     @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
-                        if(positiveResult) {
+                        if (positiveResult) {
                             Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "Dialog cancelled", Toast.LENGTH_SHORT).show();
@@ -64,7 +71,7 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                 .setBorderWidth(2)
                 .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
                     @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
-                        if(positiveResult) {
+                        if (positiveResult) {
                             Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "Dialog cancelled", Toast.LENGTH_SHORT).show();
@@ -80,12 +87,29 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                 .setDismissOnColorSelected(false)
                 .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
                     @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
-                        if(positiveResult) {
+                        if (positiveResult) {
                             Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "Dialog cancelled", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).build().show(getFragmentManager(), "dialog_demo_3");
+    }
+
+    private void showDialog4() {
+        new SpectrumDialog.Builder(getContext())
+                .setColors(R.array.demo_colors)
+                .setSelectedColorRes(R.color.md_blue_500)
+                .setDismissOnColorSelected(true)
+                .setFixedColumnCount(4)
+                .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
+                    @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
+                        if (positiveResult) {
+                            Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Dialog cancelled", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).build().show(getFragmentManager(), "dialog_demo_4");
     }
 }

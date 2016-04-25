@@ -54,6 +54,7 @@ public class SpectrumPreferenceDialogFragmentCompat extends PreferenceDialogFrag
         mColorPalette.setColors(getSpectrumPreference().getColors());
         mColorPalette.setSelectedColor(mCurrentValue);
         mColorPalette.setBorderWidth(getSpectrumPreference().getBorderWidth());
+        mColorPalette.setFixedColumnCount(getSpectrumPreference().getFixedColumnCount());
         mColorPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
             @Override
             public void onColorSelected(@ColorInt int color) {

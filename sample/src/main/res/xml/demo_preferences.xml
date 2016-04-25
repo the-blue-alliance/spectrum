@@ -19,4 +19,13 @@
         app:spectrum_borderWidth="2dp"
         app:spectrum_colors="@array/demo_colors_expanded" />
 
+    <com.thebluealliance.spectrum.SpectrumPreferenceCompat
+        android:defaultValue="@color/md_red_500"
+        android:key="demo_preference_3"
+        android:summary="This preference has a fixed number of columns (4)."
+        android:title="Fixed column count"
+        app:spectrum_closeOnSelected="false"
+        app:spectrum_columnCount="4"
+        app:spectrum_colors="@array/demo_colors" />
+
 </PreferenceScreen>

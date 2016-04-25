@@ -16,4 +16,9 @@
         android:summary="This demonstrates Spectrum's behavior with a range of light and dark colors"
         android:title="256 Shades of Grey" />
 
+    <Preference
+        android:key="demo_dialog_4"
+        android:summary="This demonstrates a dialog with a fixed number of columns (4). This column count will be used no matter how big the screen is."
+        android:title="Fixed Column Count" />
+
 </PreferenceScreen>

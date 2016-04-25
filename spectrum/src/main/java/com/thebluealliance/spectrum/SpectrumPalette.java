@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,8 @@ public class SpectrumPalette extends LinearLayout {
     private @ColorInt int mSelectedColor;
     private OnColorSelectedListener mListener;
     private boolean mAutoPadding = false;
+    private boolean mHasFixedColumnCount = false;
+    private int mFixedColumnCount = -1;
     private int mBorderWidth = 0;
     private int mComputedVerticalPadding = 0;
     private int mOriginalPaddingTop = 0;
@@ -64,6 +67,10 @@ public class SpectrumPalette extends LinearLayout {
 
         mAutoPadding = a.getBoolean(R.styleable.SpectrumPalette_spectrum_autoPadding, false);
         mBorderWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_borderWidth, 0);
+        mFixedColumnCount = a.getInt(R.styleable.SpectrumPalette_spectrum_columnCount, -1);
+        if (mFixedColumnCount != -1) {
+            mHasFixedColumnCount = true;
+        }
 
         a.recycle();
 
@@ -122,15 +129,20 @@ public class SpectrumPalette extends LinearLayout {
 
         int width, height;
 
-        if (widthMode == MeasureSpec.EXACTLY) {
-            width = widthSize;
-            mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
-        } else if (widthMode == MeasureSpec.AT_MOST) {
-            width = widthSize;
-            mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
+        if (!mHasFixedColumnCount) {
+            if (widthMode == MeasureSpec.EXACTLY) {
+                width = widthSize;
+                mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
+            } else if (widthMode == MeasureSpec.AT_MOST) {
+                width = widthSize;
+                mNumColumns = computeColumnCount(widthSize - (getPaddingLeft() + getPaddingRight()));
+            } else {
+                width = computeWidthForNumColumns(DEFAULT_COLUMN_COUNT) + getPaddingLeft() + getPaddingRight();
+                mNumColumns = DEFAULT_COLUMN_COUNT;
+            }
         } else {
-            width = computeWidthForNumColumns(DEFAULT_COLUMN_COUNT) + getPaddingLeft() + getPaddingRight();
-            mNumColumns = DEFAULT_COLUMN_COUNT;
+            width = computeWidthForNumColumns(mFixedColumnCount) + getPaddingLeft() + getPaddingRight();
+            mNumColumns = mFixedColumnCount;
         }
 
         mComputedVerticalPadding = (width - (computeWidthForNumColumns(mNumColumns) + getPaddingLeft() + getPaddingRight())) / 2;
@@ -276,7 +288,7 @@ public class SpectrumPalette extends LinearLayout {
     }
 
     @Subscribe
-    public void onSelectedColorChanged(SelectedColorChangedEvent event) {
+    public void onSelectedColorChaxnged(SelectedColorChangedEvent event) {
         mSelectedColor = event.getSelectedColor();
         if (mListener != null) {
             mListener.onColorSelected(mSelectedColor);
@@ -290,7 +302,6 @@ public class SpectrumPalette extends LinearLayout {
     /**
      * Returns true if for the given color a dark checkmark is used.
      *
-     * @param color
      * @return true if color is "dark"
      */
     public boolean usesDarkCheckmark(@ColorInt int color) {
@@ -306,6 +317,26 @@ public class SpectrumPalette extends LinearLayout {
         mBorderWidth = width;
         for (ColorItem item : mItems) {
             item.setBorderWidth(width);
+        }
+    }
+
+    /**
+     * Tells the palette to use a fixed number of columns during layout.
+     *
+     * @param columnCount how many columns to use
+     */
+    public void setFixedColumnCount(int columnCount) {
+        if (columnCount > 0) {
+            Log.d("spectrum", "set column count to " + columnCount);
+            mHasFixedColumnCount = true;
+            mFixedColumnCount = columnCount;
+            requestLayout();
+            invalidate();
+        } else {
+            mHasFixedColumnCount = false;
+            mFixedColumnCount = -1;
+            requestLayout();
+            invalidate();
         }
     }
 

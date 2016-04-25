@@ -27,6 +27,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private static final String KEY_POSITIVE_BUTTON_TEXT = "positive_button_text";
     private static final String KEY_NEGATIVE_BUTTON_TEXT = "negative_button_text";
     private static final String KEY_BORDER_WIDTH = "border_width";
+    private static final String KEY_FIXED_COLUMN_COUNT = "fixed_column_count";
 
     private CharSequence mTitle;
     private CharSequence mPositiveButtonText;
@@ -37,6 +38,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private boolean mShouldDismissOnColorSelected = true;
     private OnColorSelectedListener mListener;
     private int mBorderWidth = 0;
+    private int mFixedColumnCount = -1;
 
     public SpectrumDialog() {
         // Required empty constructor
@@ -76,9 +78,21 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          * Change the size of the outlining
          *
          * @param width in px
+         * @return This {@link Builder} for method chaining
          */
         public Builder setBorderWidth(int width) {
             mArgs.putInt(KEY_BORDER_WIDTH, width);
+            return this;
+        }
+
+        /**
+         * Tells the underlying palette to use a fixed number of columns during layout.
+         *
+         * @param columnCount how many columns to use
+         * @return This {@link Builder} for method chaining
+         */
+        public Builder setFixedColumnCount(int columnCount) {
+            mArgs.putInt(KEY_FIXED_COLUMN_COUNT, columnCount);
             return this;
         }
 
@@ -289,6 +303,10 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             mBorderWidth = args.getInt(KEY_BORDER_WIDTH);
         }
 
+        if (args != null && args.containsKey(KEY_FIXED_COLUMN_COUNT)) {
+            mFixedColumnCount = args.getInt(KEY_FIXED_COLUMN_COUNT);
+        }
+
         // Next, overwrite any appropriate values if present in the saved instance state
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_COLOR)) {
             mSelectedColor = savedInstanceState.getInt(KEY_SELECTED_COLOR);
@@ -340,6 +358,9 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         if (mBorderWidth != 0) {
             palette.setBorderWidth(mBorderWidth);
         }
+        if (mFixedColumnCount > 0) {
+            palette.setFixedColumnCount(mFixedColumnCount);
+        }
 
         builder.setView(view);
 
@@ -376,18 +397,6 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
      * Will receive callbacks when the user selects a color
      */
     public interface OnColorSelectedListener {
-        /**
-         * Indicates that the user confirmed the color selection, either by pressing "OK" or
-         * clicking on a color.
-         */
-        int POSITIVE = -1;
-
-        /**
-         * Indicates that the user wants to dismiss any changes made in the dialog, which would
-         * be caused by pressing the dialog's negative button, by tapping outside the dialog, or
-         * by pressing the system "Back" button.
-         */
-        int NEGATIVE = -2;
 
         /**
          * Called when the user selects a color and closes the dialog. If

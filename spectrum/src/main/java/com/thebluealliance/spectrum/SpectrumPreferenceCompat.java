@@ -51,12 +51,12 @@ public class SpectrumPreferenceCompat extends DialogPreference {
     private boolean mValueSet = false;
     private View mColorView;
     private int mBorderWidth = 0;
+    private int mFixedColumnCount = -1;
 
     public SpectrumPreferenceCompat(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable
-                .SpectrumPreference, 0, 0);
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SpectrumPreference, 0, 0);
         try {
             int id = a.getResourceId(R.styleable.SpectrumPreference_spectrum_colors, 0);
             if (id != 0) {
@@ -64,6 +64,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
             }
             mCloseOnSelected = a.getBoolean(R.styleable.SpectrumPreference_spectrum_closeOnSelected, true);
             mBorderWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_borderWidth, 0);
+            mFixedColumnCount = a.getInt(R.styleable.SpectrumPalette_spectrum_columnCount, -1);
         } finally {
             a.recycle();
         }
@@ -119,8 +120,8 @@ public class SpectrumPreferenceCompat extends DialogPreference {
     }
 
     /**
-     * @see #setCloseOnSelected(boolean)
      * @return true if the dialog will close automatically when a color is selected
+     * @see #setCloseOnSelected(boolean)
      */
     public boolean getCloseOnSelected() {
         return mCloseOnSelected;
@@ -173,6 +174,10 @@ public class SpectrumPreferenceCompat extends DialogPreference {
 
     public int getBorderWidth() {
         return mBorderWidth;
+    }
+
+    public int getFixedColumnCount() {
+        return mFixedColumnCount;
     }
 
     @ColorInt

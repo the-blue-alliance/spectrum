@@ -24,6 +24,7 @@ public class SpectrumPreference extends DialogPreference {
     private SpectrumPalette mColorPalette;
     private View mColorView;
     private int mBorderWidth = 0;
+    private int mFixedColumnCount = -1;
 
     public SpectrumPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -37,6 +38,7 @@ public class SpectrumPreference extends DialogPreference {
             }
             mCloseOnSelected = a.getBoolean(R.styleable.SpectrumPreference_spectrum_closeOnSelected, true);
             mBorderWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_borderWidth, 0);
+            mFixedColumnCount = a.getInt(R.styleable.SpectrumPalette_spectrum_columnCount, -1);
         } finally {
             a.recycle();
         }
@@ -134,8 +136,9 @@ public class SpectrumPreference extends DialogPreference {
 
         mColorPalette = (SpectrumPalette) view.findViewById(R.id.palette);
         mColorPalette.setColors(mColors);
-        mColorPalette.setBorderWidth(mBorderWidth);
         mColorPalette.setSelectedColor(mCurrentValue);
+        mColorPalette.setBorderWidth(mBorderWidth);
+        mColorPalette.setFixedColumnCount(mFixedColumnCount);
         mColorPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
             @Override
             public void onColorSelected(@ColorInt int color) {

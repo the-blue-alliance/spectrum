@@ -9,6 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:spectrum_autoPadding="true"
-        app:spectrum_borderWidth="2dp"/>
+        app:spectrum_borderWidth="2dp" />
 
 </android.support.v4.widget.NestedScrollView>

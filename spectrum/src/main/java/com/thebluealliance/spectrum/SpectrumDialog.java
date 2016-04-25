@@ -78,12 +78,19 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          * Change the size of the outlining
          *
          * @param width in px
+         * @return This {@link Builder} for method chaining
          */
         public Builder setBorderWidth(int width) {
             mArgs.putInt(KEY_BORDER_WIDTH, width);
             return this;
         }
 
+        /**
+         * Tells the underlying palette to use a fixed number of columns during layout.
+         *
+         * @param columnCount how many columns to use
+         * @return This {@link Builder} for method chaining
+         */
         public Builder setFixedColumnCount(int columnCount) {
             mArgs.putInt(KEY_FIXED_COLUMN_COUNT, columnCount);
             return this;

@@ -44,8 +44,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
     private static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
     private static final @ColorInt int DEFAULT_VALUE = Color.BLACK;
-    public static final int ALPHA_ENABLED = 255;
-    public static final int ALPHA_DISABLED = 150;
+    public static final int ALPHA_DISABLED = 97; //38% alpha
 
     private @ColorInt int[] mColors;
     private @ColorInt int mCurrentValue;
@@ -135,7 +134,10 @@ public class SpectrumPreferenceCompat extends DialogPreference {
         }
         ColorCircleDrawable drawable = new ColorCircleDrawable(mCurrentValue);
         drawable.setBorderWidth(mBorderWidth);
-        drawable.setAlpha(isEnabled() ? ALPHA_ENABLED :  ALPHA_DISABLED);
+        if (!isEnabled()) {
+            drawable.setColor(Color.BLACK);
+            drawable.setAlpha(ALPHA_DISABLED);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mColorView.setBackground(drawable);
         } else {

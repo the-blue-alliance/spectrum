@@ -6,7 +6,7 @@
         android:defaultValue="@color/md_indigo_500"
         android:key="demo_preference_1"
         android:summary="This is pretty cool."
-        android:title="Color reference"
+        android:title="Color preference"
         app:spectrum_colors="@array/demo_colors"
         app:spectrum_borderWidth="2dp"/>
 
@@ -26,6 +26,18 @@
         android:title="Fixed column count"
         app:spectrum_closeOnSelected="false"
         app:spectrum_columnCount="4"
+        app:spectrum_colors="@array/demo_colors" />
+
+    <CheckBoxPreference
+        android:key="enable_demo_preference_4"
+        android:title="Enable preference below"/>
+
+    <com.thebluealliance.spectrum.SpectrumPreferenceCompat
+        android:defaultValue="@color/md_red_500"
+        android:dependency="enable_demo_preference_4"
+        android:key="demo_preference_4"
+        android:summary="When this preference is disabled, the preview changes to gray"
+        android:title="Preference that can be disabled"
         app:spectrum_colors="@array/demo_colors" />
 
 </PreferenceScreen>

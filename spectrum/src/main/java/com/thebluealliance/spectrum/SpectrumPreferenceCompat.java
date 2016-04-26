@@ -45,7 +45,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
 
     private static final @ColorInt int DEFAULT_VALUE = Color.BLACK;
     public static final int ALPHA_ENABLED = 255;
-    public static final int ALPHA_DISABLED = 127;
+    public static final int ALPHA_DISABLED = 150;
 
     private @ColorInt int[] mColors;
     private @ColorInt int mCurrentValue;

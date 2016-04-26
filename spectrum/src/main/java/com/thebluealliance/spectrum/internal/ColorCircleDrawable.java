@@ -20,11 +20,22 @@ public class ColorCircleDrawable extends Drawable {
         mPaint.setColor(color);
         mOutlinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mOutlinePaint.setColor(ColorUtil.isColorDark(color) ? Color.WHITE : Color.BLACK);
+        mOutlinePaint.setStyle(Paint.Style.STROKE);
     }
 
     public void setColor(@ColorInt int color) {
         mPaint.setColor(color);
         mOutlinePaint.setColor(ColorUtil.isColorDark(color) ? Color.WHITE : Color.BLACK);
+        invalidateSelf();
+    }
+
+    public void setBorderColor(@ColorInt int color) {
+        mOutlinePaint.setColor(color);
+        invalidateSelf();
+    }
+
+    public void setBorderAlpha(int alpha) {
+        mOutlinePaint.setAlpha(alpha);
         invalidateSelf();
     }
 
@@ -38,6 +49,7 @@ public class ColorCircleDrawable extends Drawable {
             width = 0;
         }
         mBorderWidth = width;
+        mOutlinePaint.setStrokeWidth(mBorderWidth);
         invalidateSelf();
     }
 
@@ -45,8 +57,8 @@ public class ColorCircleDrawable extends Drawable {
     public void draw(final Canvas canvas) {
         final Rect bounds = getBounds();
         if (mBorderWidth != 0) {
-            canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius, mOutlinePaint);
             canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius - mBorderWidth, mPaint);
+            canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius - mBorderWidth, mOutlinePaint);
         } else {
             canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius, mPaint);
         }

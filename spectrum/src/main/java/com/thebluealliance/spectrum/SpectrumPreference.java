@@ -120,8 +120,12 @@ public class SpectrumPreference extends DialogPreference {
         ColorCircleDrawable drawable = new ColorCircleDrawable(mCurrentValue);
         drawable.setBorderWidth(mBorderWidth);
         if (!isEnabled()) {
+            // Show just a gray circle outline
             drawable.setColor(Color.BLACK);
-            drawable.setAlpha(ALPHA_DISABLED);
+            drawable.setAlpha(0);
+            drawable.setBorderWidth(getContext().getResources().getDimensionPixelSize(R.dimen.color_preference_disabled_border_size));
+            drawable.setBorderColor(Color.BLACK);
+            drawable.setBorderAlpha(ALPHA_DISABLED);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mColorView.setBackground(drawable);

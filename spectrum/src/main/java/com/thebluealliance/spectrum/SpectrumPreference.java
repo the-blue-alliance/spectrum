@@ -123,7 +123,7 @@ public class SpectrumPreference extends DialogPreference {
             // Show just a gray circle outline
             drawable.setColor(Color.BLACK);
             drawable.setAlpha(0);
-            drawable.setBorderWidth(5);
+            drawable.setBorderWidth(getContext().getResources().getDimensionPixelSize(R.dimen.color_preference_disabled_border_size));
             drawable.setBorderColor(Color.BLACK);
             drawable.setBorderAlpha(ALPHA_DISABLED);
         }

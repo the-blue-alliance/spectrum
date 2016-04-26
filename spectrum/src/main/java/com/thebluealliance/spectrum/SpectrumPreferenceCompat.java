@@ -1,8 +1,5 @@
 package com.thebluealliance.spectrum;
 
-import com.thebluealliance.spectrum.internal.ColorCircleDrawable;
-import com.thebluealliance.spectrum.internal.SpectrumPreferenceDialogFragmentCompat;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -16,6 +13,9 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.thebluealliance.spectrum.internal.ColorCircleDrawable;
+import com.thebluealliance.spectrum.internal.SpectrumPreferenceDialogFragmentCompat;
 
 /**
  * A version of {@link SpectrumPreference} meant to be used with the support library Preferences.
@@ -44,6 +44,8 @@ public class SpectrumPreferenceCompat extends DialogPreference {
     private static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
     private static final @ColorInt int DEFAULT_VALUE = Color.BLACK;
+    public static final int ALPHA_ENABLED = 255;
+    public static final int ALPHA_DISABLED = 127;
 
     private @ColorInt int[] mColors;
     private @ColorInt int mCurrentValue;
@@ -133,6 +135,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
         }
         ColorCircleDrawable drawable = new ColorCircleDrawable(mCurrentValue);
         drawable.setBorderWidth(mBorderWidth);
+        drawable.setAlpha(isEnabled() ? ALPHA_ENABLED :  ALPHA_DISABLED);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mColorView.setBackground(drawable);
         } else {

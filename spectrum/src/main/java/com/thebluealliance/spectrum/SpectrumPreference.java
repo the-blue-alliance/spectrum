@@ -1,7 +1,5 @@
 package com.thebluealliance.spectrum;
 
-import com.thebluealliance.spectrum.internal.ColorCircleDrawable;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,9 +12,13 @@ import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.thebluealliance.spectrum.internal.ColorCircleDrawable;
+
 public class SpectrumPreference extends DialogPreference {
 
     private static final @ColorInt int DEFAULT_VALUE = Color.BLACK;
+    public static final int ALPHA_ENABLED = 255;
+    public static final int ALPHA_DISABLED = 127;
 
     private @ColorInt int[] mColors;
     private @ColorInt int mCurrentValue;
@@ -118,6 +120,7 @@ public class SpectrumPreference extends DialogPreference {
         }
         ColorCircleDrawable drawable = new ColorCircleDrawable(mCurrentValue);
         drawable.setBorderWidth(mBorderWidth);
+        drawable.setAlpha(isEnabled() ? ALPHA_ENABLED :  ALPHA_DISABLED);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mColorView.setBackground(drawable);
         } else {

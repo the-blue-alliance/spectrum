@@ -12,7 +12,7 @@ import android.support.annotation.ColorInt;
 public class ColorCircleDrawable extends Drawable {
     private final Paint mPaint;
     private int mRadius = 0;
-    private int mBorderWidth = 0;
+    private int mOutlineWidth = 0;
     private final Paint mOutlinePaint;
 
     public ColorCircleDrawable(final @ColorInt int color) {
@@ -29,12 +29,12 @@ public class ColorCircleDrawable extends Drawable {
         invalidateSelf();
     }
 
-    public void setBorderColor(@ColorInt int color) {
+    public void setOutlineColor(@ColorInt int color) {
         mOutlinePaint.setColor(color);
         invalidateSelf();
     }
 
-    public void setBorderAlpha(int alpha) {
+    public void setOutlineAlpha(int alpha) {
         mOutlinePaint.setAlpha(alpha);
         invalidateSelf();
     }
@@ -44,21 +44,21 @@ public class ColorCircleDrawable extends Drawable {
      *
      * @param width in px
      */
-    public void setBorderWidth(int width) {
+    public void setOutlineWidth(int width) {
         if (width < 0) {
             width = 0;
         }
-        mBorderWidth = width;
-        mOutlinePaint.setStrokeWidth(mBorderWidth);
+        mOutlineWidth = width;
+        mOutlinePaint.setStrokeWidth(mOutlineWidth);
         invalidateSelf();
     }
 
     @Override
     public void draw(final Canvas canvas) {
         final Rect bounds = getBounds();
-        if (mBorderWidth != 0) {
-            canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius - mBorderWidth, mPaint);
-            canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius - mBorderWidth, mOutlinePaint);
+        if (mOutlineWidth != 0) {
+            canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius - mOutlineWidth, mPaint);
+            canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius - mOutlineWidth, mOutlinePaint);
         } else {
             canvas.drawCircle(bounds.centerX(), bounds.centerY(), mRadius, mPaint);
         }

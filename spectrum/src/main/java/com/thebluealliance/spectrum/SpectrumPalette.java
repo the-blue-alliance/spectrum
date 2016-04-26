@@ -36,7 +36,7 @@ public class SpectrumPalette extends LinearLayout {
     private boolean mAutoPadding = false;
     private boolean mHasFixedColumnCount = false;
     private int mFixedColumnCount = -1;
-    private int mBorderWidth = 0;
+    private int mOutlineWidth = 0;
     private int mComputedVerticalPadding = 0;
     private int mOriginalPaddingTop = 0;
     private int mOriginalPaddingBottom = 0;
@@ -66,7 +66,7 @@ public class SpectrumPalette extends LinearLayout {
         }
 
         mAutoPadding = a.getBoolean(R.styleable.SpectrumPalette_spectrum_autoPadding, false);
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_borderWidth, 0);
+        mOutlineWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_outlineWidth, 0);
         mFixedColumnCount = a.getInt(R.styleable.SpectrumPalette_spectrum_columnCount, -1);
         if (mFixedColumnCount != -1) {
             mHasFixedColumnCount = true;
@@ -272,8 +272,8 @@ public class SpectrumPalette extends LinearLayout {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mColorItemDimension, mColorItemDimension);
         params.setMargins(mColorItemMargin, mColorItemMargin, mColorItemMargin, mColorItemMargin);
         view.setLayoutParams(params);
-        if (mBorderWidth != 0) {
-            view.setBorderWidth(mBorderWidth);
+        if (mOutlineWidth != 0) {
+            view.setOutlineWidth(mOutlineWidth);
         }
         mItems.add(view);
         return view;
@@ -313,10 +313,10 @@ public class SpectrumPalette extends LinearLayout {
      *
      * @param width in px
      */
-    public void setBorderWidth(int width) {
-        mBorderWidth = width;
+    public void setOutlineWidth(int width) {
+        mOutlineWidth = width;
         for (ColorItem item : mItems) {
-            item.setBorderWidth(width);
+            item.setOutlineWidth(width);
         }
     }
 

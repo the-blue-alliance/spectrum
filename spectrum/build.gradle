@@ -35,6 +35,7 @@ android {
         targetSdkVersion 23
         versionCode libraryVersionCode
         versionName libraryVersion
+        consumerProguardFiles 'proguard-rules.pro'
     }
     buildTypes {
         release {

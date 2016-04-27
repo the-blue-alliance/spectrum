@@ -51,7 +51,7 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                 .setColors(R.array.demo_colors)
                 .setSelectedColorRes(R.color.md_blue_500)
                 .setDismissOnColorSelected(true)
-                .setBorderWidth(2)
+                .setOutlineWidth(2)
                 .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
                     @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
                         if (positiveResult) {
@@ -68,7 +68,7 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                 .setColors(R.array.demo_colors)
                 .setSelectedColorRes(R.color.md_blue_500)
                 .setDismissOnColorSelected(false)
-                .setBorderWidth(2)
+                .setOutlineWidth(2)
                 .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
                     @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
                         if (positiveResult) {

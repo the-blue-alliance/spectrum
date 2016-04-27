@@ -26,7 +26,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private static final String KEY_SHOULD_DISMISS_ON_COLOR_SELECTED = "should_dismiss_on_color_selected";
     private static final String KEY_POSITIVE_BUTTON_TEXT = "positive_button_text";
     private static final String KEY_NEGATIVE_BUTTON_TEXT = "negative_button_text";
-    private static final String KEY_BORDER_WIDTH = "border_width";
+    private static final String KEY_OUTLINE_WIDTH = "border_width";
     private static final String KEY_FIXED_COLUMN_COUNT = "fixed_column_count";
 
     private CharSequence mTitle;
@@ -37,7 +37,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private @ColorInt int mSelectedColor = -1;
     private boolean mShouldDismissOnColorSelected = true;
     private OnColorSelectedListener mListener;
-    private int mBorderWidth = 0;
+    private int mOutlineWidth = 0;
     private int mFixedColumnCount = -1;
 
     public SpectrumDialog() {
@@ -80,8 +80,8 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          * @param width in px
          * @return This {@link Builder} for method chaining
          */
-        public Builder setBorderWidth(int width) {
-            mArgs.putInt(KEY_BORDER_WIDTH, width);
+        public Builder setOutlineWidth(int width) {
+            mArgs.putInt(KEY_OUTLINE_WIDTH, width);
             return this;
         }
 
@@ -299,8 +299,8 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             mNegativeButtonText = getContext().getText(android.R.string.cancel);
         }
 
-        if (args != null && args.containsKey(KEY_BORDER_WIDTH)) {
-            mBorderWidth = args.getInt(KEY_BORDER_WIDTH);
+        if (args != null && args.containsKey(KEY_OUTLINE_WIDTH)) {
+            mOutlineWidth = args.getInt(KEY_OUTLINE_WIDTH);
         }
 
         if (args != null && args.containsKey(KEY_FIXED_COLUMN_COUNT)) {
@@ -355,8 +355,8 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         palette.setColors(mColors);
         palette.setSelectedColor(mSelectedColor);
         palette.setOnColorSelectedListener(this);
-        if (mBorderWidth != 0) {
-            palette.setBorderWidth(mBorderWidth);
+        if (mOutlineWidth != 0) {
+            palette.setOutlineWidth(mOutlineWidth);
         }
         if (mFixedColumnCount > 0) {
             palette.setFixedColumnCount(mFixedColumnCount);

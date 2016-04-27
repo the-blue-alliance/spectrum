@@ -8,7 +8,7 @@
         android:summary="This is pretty cool."
         android:title="Color preference"
         app:spectrum_colors="@array/demo_colors"
-        app:spectrum_borderWidth="2dp"/>
+        app:spectrum_outlineWidth="2dp"/>
 
     <com.thebluealliance.spectrum.SpectrumPreferenceCompat
         android:defaultValue="@color/md_red_500"
@@ -16,7 +16,7 @@
         android:summary="This preference won't close automatically when a color is selected; you have to press OK"
         android:title="Another color preference"
         app:spectrum_closeOnSelected="false"
-        app:spectrum_borderWidth="2dp"
+        app:spectrum_outlineWidth="2dp"
         app:spectrum_colors="@array/demo_colors_expanded" />
 
     <com.thebluealliance.spectrum.SpectrumPreferenceCompat

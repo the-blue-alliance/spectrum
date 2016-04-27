@@ -7,4 +7,5 @@
     <dimen name="color_item_selected_check_margins">8dp</dimen>
 
     <dimen name="color_preference_color_view_size">32dp</dimen>
+    <dimen name="color_preference_disabled_outline_size">2dp</dimen>
 </resources>

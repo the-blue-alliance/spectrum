@@ -24,7 +24,7 @@ public class SpectrumPreference extends DialogPreference {
     private boolean mCloseOnSelected = true;
     private SpectrumPalette mColorPalette;
     private View mColorView;
-    private int mBorderWidth = 0;
+    private int mOutlineWidth = 0;
     private int mFixedColumnCount = -1;
 
     public SpectrumPreference(Context context, AttributeSet attrs) {
@@ -38,7 +38,7 @@ public class SpectrumPreference extends DialogPreference {
                 mColors = getContext().getResources().getIntArray(id);
             }
             mCloseOnSelected = a.getBoolean(R.styleable.SpectrumPreference_spectrum_closeOnSelected, true);
-            mBorderWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_borderWidth, 0);
+            mOutlineWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_outlineWidth, 0);
             mFixedColumnCount = a.getInt(R.styleable.SpectrumPalette_spectrum_columnCount, -1);
         } finally {
             a.recycle();
@@ -118,10 +118,14 @@ public class SpectrumPreference extends DialogPreference {
             return;
         }
         ColorCircleDrawable drawable = new ColorCircleDrawable(mCurrentValue);
-        drawable.setBorderWidth(mBorderWidth);
+        drawable.setOutlineWidth(mOutlineWidth);
         if (!isEnabled()) {
+            // Show just a gray circle outline
             drawable.setColor(Color.BLACK);
-            drawable.setAlpha(ALPHA_DISABLED);
+            drawable.setAlpha(0);
+            drawable.setOutlineWidth(getContext().getResources().getDimensionPixelSize(R.dimen.color_preference_disabled_outline_size));
+            drawable.setOutlineColor(Color.BLACK);
+            drawable.setOutlineAlpha(ALPHA_DISABLED);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mColorView.setBackground(drawable);
@@ -142,7 +146,7 @@ public class SpectrumPreference extends DialogPreference {
         mColorPalette = (SpectrumPalette) view.findViewById(R.id.palette);
         mColorPalette.setColors(mColors);
         mColorPalette.setSelectedColor(mCurrentValue);
-        mColorPalette.setBorderWidth(mBorderWidth);
+        mColorPalette.setOutlineWidth(mOutlineWidth);
         mColorPalette.setFixedColumnCount(mFixedColumnCount);
         mColorPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
             @Override

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="spectrum_colors" format="reference" />
-    <attr name="spectrum_borderWidth" format="dimension" />
+    <attr name="spectrum_outlineWidth" format="dimension" />
     <attr name="spectrum_columnCount" format="integer" />
 
     <declare-styleable name="SpectrumPalette">
         <attr name="spectrum_colors" />
-        <attr name="spectrum_borderWidth" />
+        <attr name="spectrum_outlineWidth" />
         <attr name="spectrum_columnCount" />
         <attr name="spectrum_autoPadding" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="SpectrumPreference">
         <attr name="spectrum_colors" />
-        <attr name="spectrum_borderWidth" />
+        <attr name="spectrum_outlineWidth" />
         <attr name="spectrum_columnCount" />
         <attr name="spectrum_closeOnSelected" format="boolean" />
     </declare-styleable>

@@ -22,6 +22,7 @@ public class SpectrumPreference extends DialogPreference {
     private @ColorInt int[] mColors;
     private @ColorInt int mCurrentValue;
     private boolean mCloseOnSelected = true;
+    private boolean mValueSet = false;
     private SpectrumPalette mColorPalette;
     private View mColorView;
     private int mOutlineWidth = 0;
@@ -73,6 +74,20 @@ public class SpectrumPreference extends DialogPreference {
     public
     @ColorInt int[] getColors() {
         return mColors;
+    }
+
+    public void setValue(@ColorInt int value) {
+        // Always persist/notify the first time.
+        final boolean changed = mCurrentValue != value;
+        if (changed || !mValueSet) {
+            mCurrentValue = value;
+            mValueSet = true;
+            persistInt(value);
+            updateColorView();
+            if (changed) {
+                notifyChanged();
+            }
+        }
     }
 
     /**

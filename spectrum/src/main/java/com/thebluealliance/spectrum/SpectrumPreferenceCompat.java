@@ -190,7 +190,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
         return a.getInteger(index, DEFAULT_VALUE);
     }
 
-    public void setValue(@ColorInt int value) {
+    public void setColor(@ColorInt int value) {
         // Always persist/notify the first time.
         final boolean changed = mCurrentValue != value;
         if (changed || !mValueSet) {

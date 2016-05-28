@@ -74,7 +74,7 @@ public class SpectrumPreferenceDialogFragmentCompat extends PreferenceDialogFrag
         final SpectrumPreferenceCompat preference = getSpectrumPreference();
         if (positiveResult) {
             if (preference.callChangeListener(mCurrentValue)) {
-                preference.setValue(mCurrentValue);
+                preference.setColor(mCurrentValue);
             }
         }
     }

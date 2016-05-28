@@ -25,6 +25,7 @@ public class SpectrumPreference extends DialogPreference {
     private @ColorInt int mCurrentValue;
     private boolean mCloseOnSelected = true;
     private SpectrumPalette mColorPalette;
+    private boolean mValueSet = false;
     private View mColorView;
     private int mOutlineWidth = 0;
     private int mFixedColumnCount = -1;
@@ -104,6 +105,20 @@ public class SpectrumPreference extends DialogPreference {
      */
     public boolean getCloseOnSelected() {
         return mCloseOnSelected;
+    }
+
+    public void setColor(@ColorInt int value) {
+        // Always persist/notify the first time.
+        final boolean changed = mCurrentValue != value;
+        if (changed || !mValueSet) {
+            mCurrentValue = value;
+            mValueSet = true;
+            persistInt(value);
+            updateColorView();
+            if (changed) {
+                notifyChanged();
+            }
+        }
     }
 
     @Override

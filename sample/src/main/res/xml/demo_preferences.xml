@@ -42,8 +42,14 @@
 
     <com.thebluealliance.spectrumsample.ExternalColorChangePreference
         android:key="change_demo_preference_5"
-        android:title="Change top preference color"
+        android:title="Change preference below"
+        app:spectrum_preference="demo_preference_5"/>
+
+    <com.thebluealliance.spectrum.SpectrumPreferenceCompat
+        android:defaultValue="@color/md_green_500"
+        android:key="demo_preference_5"
         android:summary="Color indicator reflects external changes"
-        app:spectrum_preference="demo_preference_1"/>
+        android:title="Color preference"
+        app:spectrum_colors="@array/demo_colors"/>
 
 </PreferenceScreen>

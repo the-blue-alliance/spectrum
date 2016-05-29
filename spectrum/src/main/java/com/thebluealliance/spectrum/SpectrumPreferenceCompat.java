@@ -213,7 +213,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
     }
 
     @ColorInt
-    public int getValue() {
+    public int getColor() {
         return mCurrentValue;
     }
 

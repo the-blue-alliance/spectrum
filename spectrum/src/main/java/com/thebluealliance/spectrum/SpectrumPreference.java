@@ -121,6 +121,11 @@ public class SpectrumPreference extends DialogPreference {
         }
     }
 
+    @ColorInt
+    public int getColor() {
+        return mCurrentValue;
+    }
+
     @Override
     protected View onCreateView(ViewGroup parent) {
         getSharedPreferences().registerOnSharedPreferenceChangeListener(mListener);

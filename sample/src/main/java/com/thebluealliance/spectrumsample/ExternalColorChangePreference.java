@@ -3,7 +3,6 @@ package com.thebluealliance.spectrumsample;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 
 import com.thebluealliance.spectrum.SpectrumPreferenceCompat;
@@ -27,13 +26,15 @@ public class ExternalColorChangePreference extends Preference {
     }
 
     @Override
-    public void onBindViewHolder(PreferenceViewHolder holder) {
-        super.onBindViewHolder(holder);
+    public void onAttached() {
+        super.onAttached();
 
         final SpectrumPreferenceCompat colorPreference = (SpectrumPreferenceCompat) getPreferenceManager().findPreference(mSpectrumPreferenceId);
         final int[] colors = colorPreference.getColors();
-        final NonRepeatingRandom randomGenerator = new NonRepeatingRandom();
+        final NonRepeatingRandom randomGenerator = new NonRepeatingRandom(find(colors, colorPreference.getColor()));
+
         setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 colorPreference.setColor(colors[randomGenerator.nextInt(colors.length)]);
@@ -42,9 +43,20 @@ public class ExternalColorChangePreference extends Preference {
         });
     }
 
+    private int find(int[] array, int value) {
+        for(int i=0; i<array.length; i++)
+            if(array[i] == value)
+                return i;
+        return -1;
+    }
+
     private class NonRepeatingRandom extends Random {
 
-        private int mLastRandomInt = -1;
+        private int mLastRandomInt;
+
+        public NonRepeatingRandom(int lastRandomInt) {
+            mLastRandomInt = lastRandomInt;
+        }
 
         @Override
         public int nextInt(int n) {

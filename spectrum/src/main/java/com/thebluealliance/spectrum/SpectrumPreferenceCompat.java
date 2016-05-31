@@ -1,6 +1,7 @@
 package com.thebluealliance.spectrum;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
@@ -54,6 +55,15 @@ public class SpectrumPreferenceCompat extends DialogPreference {
     private int mOutlineWidth = 0;
     private int mFixedColumnCount = -1;
 
+    private SharedPreferences.OnSharedPreferenceChangeListener mListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+            if(getKey().equals(key)){
+                mCurrentValue = prefs.getInt(key, mCurrentValue);
+                updateColorView();
+            }
+        }
+    };
+
     public SpectrumPreferenceCompat(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -72,6 +82,19 @@ public class SpectrumPreferenceCompat extends DialogPreference {
 
         setDialogLayoutResource(R.layout.dialog_color_picker);
         setWidgetLayoutResource(R.layout.color_preference_widget);
+
+    }
+
+    @Override
+    public void onAttached() {
+        super.onAttached();
+        getSharedPreferences().registerOnSharedPreferenceChangeListener(mListener);
+    }
+
+    @Override
+    protected void onPrepareForRemoval() {
+        super.onPrepareForRemoval();
+        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(mListener);
     }
 
     @Override
@@ -167,7 +190,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
         return a.getInteger(index, DEFAULT_VALUE);
     }
 
-    public void setValue(@ColorInt int value) {
+    public void setColor(@ColorInt int value) {
         // Always persist/notify the first time.
         final boolean changed = mCurrentValue != value;
         if (changed || !mValueSet) {
@@ -190,7 +213,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
     }
 
     @ColorInt
-    public int getValue() {
+    public int getColor() {
         return mCurrentValue;
     }
 

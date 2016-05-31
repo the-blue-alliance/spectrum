@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ExternalColorChangePreference">
+        <attr name="spectrum_preference" format="string"/>
+        <attr name="spectrum_colors"/>
+    </declare-styleable>
+</resources>

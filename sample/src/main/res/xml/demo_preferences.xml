@@ -40,4 +40,16 @@
         android:title="Preference that can be disabled"
         app:spectrum_colors="@array/demo_colors" />
 
+    <com.thebluealliance.spectrumsample.ExternalColorChangePreference
+        android:key="change_demo_preference_5"
+        android:title="Change preference below"
+        app:spectrum_preference="demo_preference_5"/>
+
+    <com.thebluealliance.spectrum.SpectrumPreferenceCompat
+        android:defaultValue="@color/md_green_500"
+        android:key="demo_preference_5"
+        android:summary="Color indicator reflects external changes"
+        android:title="Color preference"
+        app:spectrum_colors="@array/demo_colors"/>
+
 </PreferenceScreen>

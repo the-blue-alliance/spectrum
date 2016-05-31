@@ -3,6 +3,7 @@ package com.thebluealliance.spectrum;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.thebluealliance.spectrum.internal.ColorCircleDrawable;
 
@@ -23,9 +25,19 @@ public class SpectrumPreference extends DialogPreference {
     private @ColorInt int mCurrentValue;
     private boolean mCloseOnSelected = true;
     private SpectrumPalette mColorPalette;
+    private boolean mValueSet = false;
     private View mColorView;
     private int mOutlineWidth = 0;
     private int mFixedColumnCount = -1;
+
+    private SharedPreferences.OnSharedPreferenceChangeListener mListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+            if(getKey().equals(key)){
+                mCurrentValue = prefs.getInt(key, mCurrentValue);
+                updateColorView();
+            }
+        }
+    };
 
     public SpectrumPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -93,6 +105,37 @@ public class SpectrumPreference extends DialogPreference {
      */
     public boolean getCloseOnSelected() {
         return mCloseOnSelected;
+    }
+
+    public void setColor(@ColorInt int value) {
+        // Always persist/notify the first time.
+        final boolean changed = mCurrentValue != value;
+        if (changed || !mValueSet) {
+            mCurrentValue = value;
+            mValueSet = true;
+            persistInt(value);
+            updateColorView();
+            if (changed) {
+                notifyChanged();
+            }
+        }
+    }
+
+    @ColorInt
+    public int getColor() {
+        return mCurrentValue;
+    }
+
+    @Override
+    protected View onCreateView(ViewGroup parent) {
+        getSharedPreferences().registerOnSharedPreferenceChangeListener(mListener);
+        return super.onCreateView(parent);
+    }
+
+    @Override
+    protected void onPrepareForRemoval() {
+        super.onPrepareForRemoval();
+        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(mListener);
     }
 
     @Override

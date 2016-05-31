@@ -48,7 +48,7 @@ public class SpectrumPreferenceDialogFragmentCompat extends PreferenceDialogFrag
             throw new RuntimeException("SpectrumPreference requires a colors array");
         }
 
-        mCurrentValue = preference.getValue();
+        mCurrentValue = preference.getColor();
 
         mColorPalette = (SpectrumPalette) view.findViewById(R.id.palette);
         mColorPalette.setColors(getSpectrumPreference().getColors());
@@ -74,7 +74,7 @@ public class SpectrumPreferenceDialogFragmentCompat extends PreferenceDialogFrag
         final SpectrumPreferenceCompat preference = getSpectrumPreference();
         if (positiveResult) {
             if (preference.callChangeListener(mCurrentValue)) {
-                preference.setValue(mCurrentValue);
+                preference.setColor(mCurrentValue);
             }
         }
     }

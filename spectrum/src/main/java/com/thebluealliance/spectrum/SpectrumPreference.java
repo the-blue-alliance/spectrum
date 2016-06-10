@@ -23,6 +23,7 @@ public class SpectrumPreference extends DialogPreference {
 
     private @ColorInt int[] mColors;
     private @ColorInt int mCurrentValue;
+    private @ColorInt int mDialogColor;
     private boolean mCloseOnSelected = true;
     private SpectrumPalette mColorPalette;
     private boolean mValueSet = false;
@@ -82,8 +83,8 @@ public class SpectrumPreference extends DialogPreference {
      *
      * @return Array of colors
      */
-    public
-    @ColorInt int[] getColors() {
+    @ColorInt
+    public int[] getColors() {
         return mColors;
     }
 
@@ -194,8 +195,7 @@ public class SpectrumPreference extends DialogPreference {
         mColorPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
             @Override
             public void onColorSelected(@ColorInt int color) {
-                mCurrentValue = color;
-                updateColorView();
+                mDialogColor = color;
                 if (mCloseOnSelected) {
                     SpectrumPreference.this.onClick(null, DialogInterface.BUTTON_POSITIVE);
                     if (getDialog() != null) {
@@ -209,7 +209,9 @@ public class SpectrumPreference extends DialogPreference {
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         if (positiveResult) {
-            persistInt(mCurrentValue);
+            if (callChangeListener(mDialogColor)) {
+                setColor(mDialogColor);
+            }
         }
     }
 

@@ -28,6 +28,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private static final String KEY_NEGATIVE_BUTTON_TEXT = "negative_button_text";
     private static final String KEY_OUTLINE_WIDTH = "border_width";
     private static final String KEY_FIXED_COLUMN_COUNT = "fixed_column_count";
+    private static final String KEY_SHOW_ALPHA = "show_alpha";
 
     private CharSequence mTitle;
     private CharSequence mPositiveButtonText;
@@ -39,6 +40,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private OnColorSelectedListener mListener;
     private int mOutlineWidth = 0;
     private int mFixedColumnCount = -1;
+	private boolean mShowAlpha = false;
 
     public SpectrumDialog() {
         // Required empty constructor
@@ -225,6 +227,18 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             return this;
         }
 
+   		/**
+         * Sets if the the pallete should show alpha or not.
+         *
+         * @param showAlpha should show alpha or not
+         * @return This {@link Builder} for method chaining
+         */
+         
+        public Builder setShowAlpha(boolean showAlpha) {
+            mArgs.putBoolean(KEY_SHOW_ALPHA, showAlpha);
+            return this;
+        }
+        
         public SpectrumDialog build() {
             SpectrumDialog dialog = new SpectrumDialog();
             dialog.setArguments(mArgs);
@@ -307,6 +321,10 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             mFixedColumnCount = args.getInt(KEY_FIXED_COLUMN_COUNT);
         }
 
+		if (args != null && args.containsKey(KEY_SHOW_ALPHA)) {
+            mShowAlpha = args.getBoolean(KEY_SHOW_ALPHA);
+        }
+        
         // Next, overwrite any appropriate values if present in the saved instance state
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_COLOR)) {
             mSelectedColor = savedInstanceState.getInt(KEY_SELECTED_COLOR);
@@ -354,6 +372,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         SpectrumPalette palette = (SpectrumPalette) view.findViewById(R.id.palette);
         palette.setColors(mColors);
         palette.setSelectedColor(mSelectedColor);
+        palette.setShowAlpha(mShowAlpha);
         palette.setOnColorSelectedListener(this);
         if (mOutlineWidth != 0) {
             palette.setOutlineWidth(mOutlineWidth);

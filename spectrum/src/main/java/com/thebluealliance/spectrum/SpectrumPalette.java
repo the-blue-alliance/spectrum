@@ -324,7 +324,6 @@ public class SpectrumPalette extends LinearLayout {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 mAlpha = (int) (seekBar.getProgress() * 12.75);
-                mListener.onColorSelected(getSelectedColor());
             }
 
             @Override

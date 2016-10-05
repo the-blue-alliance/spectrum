@@ -288,7 +288,7 @@ public class SpectrumPalette extends LinearLayout {
     }
 
     @Subscribe
-    public void onSelectedColorChaxnged(SelectedColorChangedEvent event) {
+    public void onSelectedColorChanged(SelectedColorChangedEvent event) {
         mSelectedColor = event.getSelectedColor();
         if (mListener != null) {
             mListener.onColorSelected(mSelectedColor);

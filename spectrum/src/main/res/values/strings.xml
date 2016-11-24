@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Spectrum</string>
     <string name="default_dialog_title">Select a color</string>
+    <string name="alpha">Alpha :</string>
 </resources>

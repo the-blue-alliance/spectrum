@@ -22,6 +22,6 @@ public class PaletteDemoFragment extends Fragment implements SpectrumPalette.OnC
     }
 
     @Override public void onColorSelected(@ColorInt int color) {
-        Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Color selected: " + String.format("#%08X", color).toUpperCase(), Toast.LENGTH_SHORT).show();
     }
 }

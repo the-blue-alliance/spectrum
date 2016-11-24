@@ -9,6 +9,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +53,9 @@ public class SpectrumPalette extends LinearLayout {
 
     private List<ColorItem> mItems = new ArrayList<>();
 
+    private int mAlpha = 255;
+    private boolean mShowAlpha = false;
+
     public SpectrumPalette(Context context) {
         super(context);
         init();
@@ -71,6 +77,8 @@ public class SpectrumPalette extends LinearLayout {
         if (mFixedColumnCount != -1) {
             mHasFixedColumnCount = true;
         }
+
+        mShowAlpha = a.getBoolean(R.styleable.SpectrumPalette_spectrum_showAlpha, false);
 
         a.recycle();
 
@@ -187,9 +195,12 @@ public class SpectrumPalette extends LinearLayout {
         if (mColors.length % columnCount != 0) {
             rowCount++;
         }
-        return rowCount * (mColorItemDimension + 2 * mColorItemMargin);
+        return getRowCount(rowCount) * (mColorItemDimension + 2 * mColorItemMargin);
     }
 
+    private int getRowCount(int rowCount) {
+        return mShowAlpha ? rowCount + 1 : rowCount;
+    }
 
     private void setPaddingInternal(int left, int top, int right, int bottom) {
         mSetPaddingCalledInternally = true;
@@ -255,6 +266,9 @@ public class SpectrumPalette extends LinearLayout {
             }
             addView(row);
         }
+
+        if (mShowAlpha)
+            addView(createAlphaView(), getChildCount());
     }
 
     private LinearLayout createRow() {
@@ -287,12 +301,72 @@ public class SpectrumPalette extends LinearLayout {
         return view;
     }
 
+    private View createAlphaView() {
+        LinearLayout row = new LinearLayout(getContext());
+        row.setOrientation(VERTICAL);
+        LinearLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        row.setLayoutParams(params);
+        row.addView(createAlphaLabel());
+        row.addView(createAlpha());
+        return row;
+    }
+
+    private SeekBar createAlpha() {
+        SeekBar seekBar = new SeekBar(getContext());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(mColorItemDimension / 4, mColorItemMargin, mColorItemDimension / 4, 0);
+        seekBar.setLayoutParams(params);
+        seekBar.setMax(20);
+        seekBar.setProgress(20);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                mAlpha = (int) (seekBar.getProgress() * 12.75);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        return seekBar;
+    }
+
+    private TextView createAlphaLabel() {
+        TextView textview = new TextView(getContext());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(mColorItemDimension / 2, mColorItemMargin, 0, 0);
+        textview.setLayoutParams(params);
+        textview.setText(R.string.alpha);
+        textview.setTextColor(Color.BLACK);
+        return textview;
+    }
+
     @Subscribe
     public void onSelectedColorChanged(SelectedColorChangedEvent event) {
         mSelectedColor = event.getSelectedColor();
         if (mListener != null) {
-            mListener.onColorSelected(mSelectedColor);
+            mListener.onColorSelected(getSelectedColor());
         }
+    }
+
+    private int getSelectedColor() {
+        if (mShowAlpha) {
+            String color = Integer.toHexString(mSelectedColor);
+            String alpha = Integer.toHexString(mAlpha);
+            if (alpha.length() < 2)
+                alpha = "0" + alpha;
+            String mColor = "#" + alpha + color.substring(color.length() - 6);
+            return Color.parseColor(mColor);
+        }
+        return mSelectedColor;
     }
 
     public interface OnColorSelectedListener {
@@ -340,4 +414,13 @@ public class SpectrumPalette extends LinearLayout {
         }
     }
 
+    /**
+     * Show Alpha at bottom of the palette
+     *
+     * @param mShowAlpha should show alpha or not
+     */
+
+    public void setShowAlpha(boolean mShowAlpha) {
+        this.mShowAlpha = mShowAlpha;
+    }
 }

@@ -30,6 +30,7 @@ public class SpectrumPreference extends DialogPreference {
     private View mColorView;
     private int mOutlineWidth = 0;
     private int mFixedColumnCount = -1;
+    private boolean mShowAlpha = false;
 
     private SharedPreferences.OnSharedPreferenceChangeListener mListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
@@ -53,6 +54,7 @@ public class SpectrumPreference extends DialogPreference {
             mCloseOnSelected = a.getBoolean(R.styleable.SpectrumPreference_spectrum_closeOnSelected, true);
             mOutlineWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_outlineWidth, 0);
             mFixedColumnCount = a.getInt(R.styleable.SpectrumPalette_spectrum_columnCount, -1);
+            mShowAlpha = a.getBoolean(R.styleable.SpectrumPalette_spectrum_showAlpha, false);
         } finally {
             a.recycle();
         }
@@ -230,5 +232,13 @@ public class SpectrumPreference extends DialogPreference {
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
         return a.getInteger(index, DEFAULT_VALUE);
+    }
+
+    public boolean isShowAlpha() {
+        return mShowAlpha;
+    }
+
+    public void setShowAlpha(boolean mShowAlpha) {
+        this.mShowAlpha = mShowAlpha;
     }
 }

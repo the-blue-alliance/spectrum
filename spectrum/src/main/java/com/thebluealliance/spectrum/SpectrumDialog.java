@@ -28,6 +28,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private static final String KEY_NEGATIVE_BUTTON_TEXT = "negative_button_text";
     private static final String KEY_OUTLINE_WIDTH = "border_width";
     private static final String KEY_FIXED_COLUMN_COUNT = "fixed_column_count";
+    private static final String KEY_THEME_RES_ID = "theme_res_id";
 
     private CharSequence mTitle;
     private CharSequence mPositiveButtonText;
@@ -39,6 +40,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private OnColorSelectedListener mListener;
     private int mOutlineWidth = 0;
     private int mFixedColumnCount = -1;
+    private int mThemeResId = 0;
 
     public SpectrumDialog() {
         // Required empty constructor
@@ -195,6 +197,17 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         }
 
         /**
+         * Provides a resource that will be used to style to the dialog. See
+         * {@link AlertDialog#AlertDialog(Context, int)}.
+         *
+         * @return This {@link Builder} for method chaining
+         */
+        public Builder setThemeResId(int themeResId) {
+            mArgs.putInt(KEY_THEME_RES_ID, themeResId);
+            return this;
+        }
+
+        /**
          * Sets a listener to receive callbacks when the user interacts with the dialog.
          *
          * If you want this dialog to work properly across orientation changes, you should call
@@ -307,6 +320,10 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             mFixedColumnCount = args.getInt(KEY_FIXED_COLUMN_COUNT);
         }
 
+        if (args != null && args.containsKey(KEY_THEME_RES_ID)) {
+            mThemeResId = args.getInt(KEY_THEME_RES_ID);
+        }
+
         // Next, overwrite any appropriate values if present in the saved instance state
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_COLOR)) {
             mSelectedColor = savedInstanceState.getInt(KEY_SELECTED_COLOR);
@@ -322,7 +339,12 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder;
+        if (mThemeResId != 0) {
+            builder = new AlertDialog.Builder(getContext(), mThemeResId);
+        } else {
+            builder = new AlertDialog.Builder(getContext());
+        }
 
         builder.setTitle(mTitle);
 

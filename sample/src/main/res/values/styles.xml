@@ -16,4 +16,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/md_green_500</item>
+        <item name="colorControlNormal">@color/md_orange_500</item>
+        <item name="android:background">@color/md_grey_500</item>
+    </style>
+
 </resources>

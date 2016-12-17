@@ -121,8 +121,7 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
     }
 
     private void showDialog5() {
-        new SpectrumDialog.Builder(getContext())
-                .setThemeResId(R.style.DialogTheme)
+        new SpectrumDialog.Builder(getContext(), R.style.DialogTheme)
                 .setColors(R.array.demo_colors)
                 .setSelectedColorRes(R.color.md_blue_500)
                 .setDismissOnColorSelected(true)

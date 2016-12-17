@@ -56,6 +56,12 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             mArgs = new Bundle();
         }
 
+        public Builder(Context context, int theme) {
+            mContext = context;
+            mArgs = new Bundle();
+            mArgs.putInt(KEY_THEME_RES_ID, theme);
+        }
+
         /**
          * Sets the dialog's title.
          *
@@ -193,17 +199,6 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
             @ColorInt int color = ContextCompat.getColor(mContext, selectedColorRes);
             mArgs.putInt(KEY_SELECTED_COLOR, color);
             mArgs.putInt(KEY_ORIGINAL_SELECTED_COLOR, color);
-            return this;
-        }
-
-        /**
-         * Provides a resource that will be used to style to the dialog. See
-         * {@link AlertDialog#AlertDialog(Context, int)}.
-         *
-         * @return This {@link Builder} for method chaining
-         */
-        public Builder setThemeResId(int themeResId) {
-            mArgs.putInt(KEY_THEME_RES_ID, themeResId);
             return this;
         }
 

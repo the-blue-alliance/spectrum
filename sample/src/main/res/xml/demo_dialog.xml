@@ -21,4 +21,9 @@
         android:summary="This demonstrates a dialog with a fixed number of columns (4). This column count will be used no matter how big the screen is."
         android:title="Fixed Column Count" />
 
+    <Preference
+        android:key="demo_dialog_5"
+        android:summary="This demonstrates a dialog with a custom theme."
+        android:title="Custom Theme" />
+
 </PreferenceScreen>

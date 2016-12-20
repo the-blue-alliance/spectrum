@@ -44,6 +44,13 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                 return true;
             }
         });
+
+        findPreference("demo_dialog_5").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override public boolean onPreferenceClick(Preference preference) {
+                showDialog5();
+                return true;
+            }
+        });
     }
 
     private void showDialog1() {
@@ -111,5 +118,21 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                         }
                     }
                 }).build().show(getFragmentManager(), "dialog_demo_4");
+    }
+
+    private void showDialog5() {
+        new SpectrumDialog.Builder(getContext(), R.style.DialogTheme)
+                .setColors(R.array.demo_colors)
+                .setSelectedColorRes(R.color.md_blue_500)
+                .setDismissOnColorSelected(true)
+                .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
+                    @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
+                        if (positiveResult) {
+                            Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Dialog cancelled", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).build().show(getFragmentManager(), "dialog_demo_5");
     }
 }

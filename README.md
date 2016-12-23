@@ -11,7 +11,7 @@ Spectrum is an Android library that makes it easy to let your user pick from a l
 
 Download with Gradle:
 ```groovy
-compile 'com.thebluealliance:spectrum:0.7.0'
+compile 'com.thebluealliance:spectrum:0.7.1'
 ```
 
 The library is hosted on both Bintray (JCenter) and Maven Central; use whichever you prefer.

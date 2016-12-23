@@ -15,8 +15,6 @@ public class PaletteDemoFragment extends Fragment implements SpectrumPalette.OnC
     @Nullable @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_view_demo, container, false);
         SpectrumPalette spectrumPalette = (SpectrumPalette) v.findViewById(R.id.palette);
-        int[] colors = getResources().getIntArray(R.array.demo_colors);
-        spectrumPalette.setColors(colors);
         spectrumPalette.setOnColorSelectedListener(this);
         return v;
     }

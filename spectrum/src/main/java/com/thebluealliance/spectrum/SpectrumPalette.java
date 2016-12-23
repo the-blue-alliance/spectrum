@@ -183,6 +183,10 @@ public class SpectrumPalette extends LinearLayout {
     }
 
     private int computeHeight(int columnCount) {
+        if (mColors == null) {
+            // View does not have any colors to display, so we won't take up any room
+            return 0;
+        }
         int rowCount = mColors.length / columnCount;
         if (mColors.length % columnCount != 0) {
             rowCount++;

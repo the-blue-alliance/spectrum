@@ -102,7 +102,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          * @param color
          * @return This {@link Builder} for method chaining
          */
-        public Builder setOutlineWidth(@ColorInt int color) {
+        public Builder setOutlineColor(@ColorInt int color) {
             mArgs.putInt(KEY_OUTLINE_COLOR, color);
             return this;
         }

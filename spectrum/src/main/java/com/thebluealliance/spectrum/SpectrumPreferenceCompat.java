@@ -76,7 +76,7 @@ public class SpectrumPreferenceCompat extends DialogPreference {
             }
             mCloseOnSelected = a.getBoolean(R.styleable.SpectrumPreference_spectrum_closeOnSelected, true);
             mOutlineWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_outlineWidth, 0);
-            mOutlineWidth = a.getInt(R.styleable.SpectrumPalette_spectrum_outlineColor, -1);
+            mOutlineWidth = a.getColor(R.styleable.SpectrumPalette_spectrum_outlineColor, -1);
             mFixedColumnCount = a.getInt(R.styleable.SpectrumPalette_spectrum_columnCount, -1);
         } finally {
             a.recycle();

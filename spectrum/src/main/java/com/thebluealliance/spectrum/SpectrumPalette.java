@@ -334,7 +334,7 @@ public class SpectrumPalette extends LinearLayout {
      *
      * @param color
      */
-    public void setOutlineWidth(@ColorInt int color) {
+    public void setOutlineColor(@ColorInt int color) {
         mOutlineColor = color;
         for (ColorItem item : mItems) {
             item.setOutlineColor(color);

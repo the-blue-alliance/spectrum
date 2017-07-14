@@ -393,7 +393,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         if (mOutlineWidth != 0) {
             palette.setOutlineWidth(mOutlineWidth);
         }
-        if (mOutlineColor > -1) {
+        if (mOutlineColor != -1) {
             palette.setOutlineColor(mOutlineColor);
         }
         if (mFixedColumnCount > 0) {

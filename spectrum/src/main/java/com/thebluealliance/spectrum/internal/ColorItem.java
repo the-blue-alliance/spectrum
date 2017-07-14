@@ -174,7 +174,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
         GradientDrawable mask = new GradientDrawable();
         mask.setShape(GradientDrawable.OVAL);
         if (mOutlineWidth != 0) {
-            if (mOutlineColor > -1) {
+            if (mOutlineColor != -1) {
                 mask.setStroke(mOutlineWidth, mOutlineColor);
             }
             else {

@@ -34,7 +34,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     private @ColorInt int mColor;
     private boolean mIsSelected = false;
     private int mOutlineWidth = 0;
-    private @ColorInt int mOutlineColor = 0;
+    private @ColorInt int mOutlineColor = -1;
 
     public ColorItem(Context context, @ColorInt int color, boolean isSelected, EventBus eventBus) {
         super(context);
@@ -174,7 +174,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
         GradientDrawable mask = new GradientDrawable();
         mask.setShape(GradientDrawable.OVAL);
         if (mOutlineWidth != 0) {
-            if (mOutlineColor != null) {
+            if (mOutlineColor > -1) {
                 mask.setStroke(mOutlineWidth, mOutlineColor);
             }
             else {

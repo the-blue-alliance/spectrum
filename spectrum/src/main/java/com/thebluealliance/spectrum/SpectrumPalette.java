@@ -281,7 +281,7 @@ public class SpectrumPalette extends LinearLayout {
         if (mOutlineWidth != 0) {
             view.setOutlineWidth(mOutlineWidth);
         }
-        if (mOutlineColor > -1) {
+        if (mOutlineColor != -1) {
             view.setOutlineColor(mOutlineColor);
         }
         mItems.add(view);

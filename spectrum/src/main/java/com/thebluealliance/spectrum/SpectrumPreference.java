@@ -29,6 +29,7 @@ public class SpectrumPreference extends DialogPreference {
     private boolean mValueSet = false;
     private View mColorView;
     private int mOutlineWidth = 0;
+    private @ColorInt int mOutlineColor = -1;
     private int mFixedColumnCount = -1;
 
     private SharedPreferences.OnSharedPreferenceChangeListener mListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -52,6 +53,7 @@ public class SpectrumPreference extends DialogPreference {
             }
             mCloseOnSelected = a.getBoolean(R.styleable.SpectrumPreference_spectrum_closeOnSelected, true);
             mOutlineWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_outlineWidth, 0);
+            mOutlineColor = a.getInt(R.styleable.SpectrumPalette_spectrum_outlineColor, -1);
             mFixedColumnCount = a.getInt(R.styleable.SpectrumPalette_spectrum_columnCount, -1);
         } finally {
             a.recycle();
@@ -163,6 +165,7 @@ public class SpectrumPreference extends DialogPreference {
         }
         ColorCircleDrawable drawable = new ColorCircleDrawable(mCurrentValue);
         drawable.setOutlineWidth(mOutlineWidth);
+        drawable.setOutlineColor(mOutlineColor);
         if (!isEnabled()) {
             // Show just a gray circle outline
             drawable.setColor(Color.BLACK);
@@ -191,6 +194,7 @@ public class SpectrumPreference extends DialogPreference {
         mColorPalette.setColors(mColors);
         mColorPalette.setSelectedColor(mCurrentValue);
         mColorPalette.setOutlineWidth(mOutlineWidth);
+        mColorPalette.setOutlineColor(mOutlineColor);
         mColorPalette.setFixedColumnCount(mFixedColumnCount);
         mColorPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
             @Override

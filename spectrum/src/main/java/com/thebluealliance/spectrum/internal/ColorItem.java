@@ -34,6 +34,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     private @ColorInt int mColor;
     private boolean mIsSelected = false;
     private int mOutlineWidth = 0;
+    private @ColorInt int mOutlineColor = 0;
 
     public ColorItem(Context context, @ColorInt int color, boolean isSelected, EventBus eventBus) {
         super(context);
@@ -83,6 +84,16 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
      */
     public void setOutlineWidth(int width) {
         mOutlineWidth = width;
+        updateDrawables();
+    }
+    
+     /**
+     * Force an outline color instead of setting
+     * to black or white (default behavior)
+     * @param color
+     */
+    public void setOutlineColor(@ColorInt int color) {
+        mOutlineColor = color;
         updateDrawables();
     }
 
@@ -163,7 +174,12 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
         GradientDrawable mask = new GradientDrawable();
         mask.setShape(GradientDrawable.OVAL);
         if (mOutlineWidth != 0) {
-            mask.setStroke(mOutlineWidth, ColorUtil.isColorDark(mColor) ? Color.WHITE : Color.BLACK);
+            if (mOutlineColor != null) {
+                mask.setStroke(mOutlineWidth, mOutlineColor);
+            }
+            else {
+                mask.setStroke(mOutlineWidth, ColorUtil.isColorDark(mColor) ? Color.WHITE : Color.BLACK);
+            }
         }
         mask.setColor(mColor);
         return mask;

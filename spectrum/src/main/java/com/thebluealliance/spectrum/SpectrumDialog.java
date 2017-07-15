@@ -40,7 +40,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private boolean mShouldDismissOnColorSelected = true;
     private OnColorSelectedListener mListener;
     private int mOutlineWidth = 0;
-    private @ColorInt int mOutlineColor -1;
+    private @ColorInt int mOutlineColor = -1;
     private int mFixedColumnCount = -1;
     private int mThemeResId = 0;
 

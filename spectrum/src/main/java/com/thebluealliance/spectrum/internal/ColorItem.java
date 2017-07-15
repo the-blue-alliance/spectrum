@@ -88,8 +88,8 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     }
     
      /**
-     * Force an outline color instead of setting
-     * to black or white (default behavior)
+     * Override the default outline color
+     * 
      * @param color
      */
     public void setOutlineColor(@ColorInt int color) {
@@ -176,8 +176,7 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
         if (mOutlineWidth != 0) {
             if (mOutlineColor != -1) {
                 mask.setStroke(mOutlineWidth, mOutlineColor);
-            }
-            else {
+            } else {
                 mask.setStroke(mOutlineWidth, ColorUtil.isColorDark(mColor) ? Color.WHITE : Color.BLACK);
             }
         }

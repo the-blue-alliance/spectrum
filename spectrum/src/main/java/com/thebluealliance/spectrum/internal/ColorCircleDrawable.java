@@ -13,7 +13,6 @@ public class ColorCircleDrawable extends Drawable {
     private final Paint mPaint;
     private int mRadius = 0;
     private int mOutlineWidth = 0;
-    private @ColorInt int mOutlineColor = -1;
     private final Paint mOutlinePaint;
 
     public ColorCircleDrawable(final @ColorInt int color) {

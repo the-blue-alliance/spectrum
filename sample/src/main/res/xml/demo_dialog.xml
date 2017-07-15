@@ -13,7 +13,7 @@
 
     <Preference
         android:key="demo_dialog_6"
-        android:summary="This dialog has green outlines, you can set the outline to any color though"
+        android:summary="This dialog has purple outlines, you can set the outline to any color though"
         android:title="Click for a dialog with colored outlines"/>
 
     <Preference

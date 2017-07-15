@@ -23,10 +23,10 @@
         android:defaultValue="@color/md_indigo_500"
         android:key="demo_preference_6"
         android:summary="You can make all the colors have the same color border or your choosing"
-        android:title="Color preference with green outlines"
+        android:title="Color preference with purple outlines"
         app:spectrum_colors="@array/demo_colors"
         app:spectrum_outlineWidth="2dp"
-        app:spectrum_outlineColor="@color/md_green_500"
+        app:spectrum_outlineColor="@color/md_purple_300"
         />
 
     <com.thebluealliance.spectrum.SpectrumPreferenceCompat

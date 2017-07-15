@@ -151,7 +151,7 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                 .setSelectedColorRes(R.color.md_blue_500)
                 .setDismissOnColorSelected(true)
                 .setOutlineWidth(6)
-                .setOutlineColor(Color.GREEN)
+                .setOutlineColor(getResources().getColor(R.color.md_purple_300))
                 .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
                     @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
                         if (positiveResult) {

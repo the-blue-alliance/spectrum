@@ -2,6 +2,7 @@ package com.thebluealliance.spectrumsample;
 
 import com.thebluealliance.spectrum.SpectrumDialog;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v7.preference.Preference;
@@ -48,6 +49,14 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
         findPreference("demo_dialog_5").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override public boolean onPreferenceClick(Preference preference) {
                 showDialog5();
+                return true;
+            }
+        });
+
+        findPreference("demo_dialog_6").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showDialog6();
                 return true;
             }
         });
@@ -141,26 +150,8 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                 .setColors(R.array.demo_colors)
                 .setSelectedColorRes(R.color.md_blue_500)
                 .setDismissOnColorSelected(true)
-                .setOutlineWidth(2)
-                .setOutlineColor(R.color.md_black)
-                .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
-                    @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
-                        if (positiveResult) {
-                            Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getContext(), "Dialog cancelled", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).build().show(getFragmentManager(), "dialog_demo_6");
-    }
-
-    private void showDialog7() {
-        new SpectrumDialog.Builder(getContext())
-                .setColors(R.array.demo_colors)
-                .setSelectedColorRes(R.color.md_blue_500)
-                .setDismissOnColorSelected(true)
-                .setOutlineWidth(2)
-                .setOutlineColor(R.color.md_pink_500)
+                .setOutlineWidth(6)
+                .setOutlineColor(Color.GREEN)
                 .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
                     @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
                         if (positiveResult) {

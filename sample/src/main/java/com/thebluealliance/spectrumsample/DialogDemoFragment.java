@@ -135,4 +135,41 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                     }
                 }).build().show(getFragmentManager(), "dialog_demo_5");
     }
+
+    private void showDialog6() {
+        new SpectrumDialog.Builder(getContext())
+                .setColors(R.array.demo_colors)
+                .setSelectedColorRes(R.color.md_blue_500)
+                .setDismissOnColorSelected(true)
+                .setOutlineWidth(2)
+                .setOutlineColor(R.color.md_black)
+                .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
+                    @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
+                        if (positiveResult) {
+                            Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Dialog cancelled", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).build().show(getFragmentManager(), "dialog_demo_6");
+    }
+
+    private void showDialog7() {
+        new SpectrumDialog.Builder(getContext())
+                .setColors(R.array.demo_colors)
+                .setSelectedColorRes(R.color.md_blue_500)
+                .setDismissOnColorSelected(true)
+                .setOutlineWidth(2)
+                .setOutlineColor(R.color.md_pink_500)
+                .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
+                    @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
+                        if (positiveResult) {
+                            Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Dialog cancelled", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).build().show(getFragmentManager(), "dialog_demo_7");
+    }
+
 }

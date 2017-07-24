@@ -12,6 +12,11 @@
         android:title="Click for another dialog" />
 
     <Preference
+        android:key="demo_dialog_6"
+        android:summary="You can make all the colors have the same color border of your choosing"
+        android:title="Click for a dialog with colored outlines"/>
+
+    <Preference
         android:key="demo_dialog_3"
         android:summary="This demonstrates Spectrum's behavior with a range of light and dark colors"
         android:title="256 Shades of Grey" />

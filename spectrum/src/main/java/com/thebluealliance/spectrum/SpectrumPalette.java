@@ -37,6 +37,7 @@ public class SpectrumPalette extends LinearLayout {
     private boolean mHasFixedColumnCount = false;
     private int mFixedColumnCount = -1;
     private int mOutlineWidth = 0;
+    private @ColorInt int mOutlineColor = -1;
     private int mComputedVerticalPadding = 0;
     private int mOriginalPaddingTop = 0;
     private int mOriginalPaddingBottom = 0;
@@ -67,6 +68,7 @@ public class SpectrumPalette extends LinearLayout {
 
         mAutoPadding = a.getBoolean(R.styleable.SpectrumPalette_spectrum_autoPadding, false);
         mOutlineWidth = a.getDimensionPixelSize(R.styleable.SpectrumPalette_spectrum_outlineWidth, 0);
+        mOutlineColor = a.getColor(R.styleable.SpectrumPalette_spectrum_outlineColor, -1);
         mFixedColumnCount = a.getInt(R.styleable.SpectrumPalette_spectrum_columnCount, -1);
         if (mFixedColumnCount != -1) {
             mHasFixedColumnCount = true;
@@ -279,6 +281,9 @@ public class SpectrumPalette extends LinearLayout {
         if (mOutlineWidth != 0) {
             view.setOutlineWidth(mOutlineWidth);
         }
+        if (mOutlineColor != -1) {
+            view.setOutlineColor(mOutlineColor);
+        }
         mItems.add(view);
         return view;
     }
@@ -324,6 +329,19 @@ public class SpectrumPalette extends LinearLayout {
         }
     }
 
+     /**
+     * Change the color of the outlining
+     *
+     * @param color
+     */
+    public void setOutlineColor(@ColorInt int color) {
+        mOutlineColor = color;
+        for (ColorItem item : mItems) {
+            item.setOutlineColor(color);
+        }
+    }
+    
+    
     /**
      * Tells the palette to use a fixed number of columns during layout.
      *

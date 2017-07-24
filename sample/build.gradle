@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.3'
 
     defaultConfig {
         applicationId "com.thebluealliance.spectrum"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -27,10 +27,17 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:preference-v7:23.2.1'
-    compile 'com.android.support:preference-v14:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.wada811:android-material-design-colors:3.0.0'
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:preference-v7:25.4.0'
+    compile 'com.android.support:preference-v14:25.4.0'
+    compile 'com.android.support:design:25.4.0'
+    compile 'com.android.support:support-v4:25.4.0'
+    compile 'com.android.support:support-annotations:25.4.0'
+
+    // We already have appcompat, so we can ignore the older version
+    // that's used in this library
+    compile ('com.wada811:android-material-design-colors:3.0.0'){
+        exclude group: 'com.android.support'
+    }
     compile project(':spectrum')
 }

@@ -27,6 +27,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private static final String KEY_POSITIVE_BUTTON_TEXT = "positive_button_text";
     private static final String KEY_NEGATIVE_BUTTON_TEXT = "negative_button_text";
     private static final String KEY_OUTLINE_WIDTH = "border_width";
+    private static final String KEY_OUTLINE_COLOR = "border_color";
     private static final String KEY_FIXED_COLUMN_COUNT = "fixed_column_count";
     private static final String KEY_THEME_RES_ID = "theme_res_id";
 
@@ -39,6 +40,7 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private boolean mShouldDismissOnColorSelected = true;
     private OnColorSelectedListener mListener;
     private int mOutlineWidth = 0;
+    private @ColorInt int mOutlineColor = -1;
     private int mFixedColumnCount = -1;
     private int mThemeResId = 0;
 
@@ -90,6 +92,18 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
          */
         public Builder setOutlineWidth(int width) {
             mArgs.putInt(KEY_OUTLINE_WIDTH, width);
+            return this;
+        }
+        
+        
+        /**
+         * Change the color of the outlining
+         *
+         * @param color
+         * @return This {@link Builder} for method chaining
+         */
+        public Builder setOutlineColor(@ColorInt int color) {
+            mArgs.putInt(KEY_OUTLINE_COLOR, color);
             return this;
         }
 
@@ -310,6 +324,10 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         if (args != null && args.containsKey(KEY_OUTLINE_WIDTH)) {
             mOutlineWidth = args.getInt(KEY_OUTLINE_WIDTH);
         }
+        
+        if (args != null && args.containsKey(KEY_OUTLINE_COLOR)) {
+            mOutlineColor = args.getInt(KEY_OUTLINE_COLOR);
+        }
 
         if (args != null && args.containsKey(KEY_FIXED_COLUMN_COUNT)) {
             mFixedColumnCount = args.getInt(KEY_FIXED_COLUMN_COUNT);
@@ -374,6 +392,9 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
         palette.setOnColorSelectedListener(this);
         if (mOutlineWidth != 0) {
             palette.setOutlineWidth(mOutlineWidth);
+        }
+        if (mOutlineColor != -1) {
+            palette.setOutlineColor(mOutlineColor);
         }
         if (mFixedColumnCount > 0) {
             palette.setFixedColumnCount(mFixedColumnCount);

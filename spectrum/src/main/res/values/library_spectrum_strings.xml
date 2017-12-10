@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_spectrum">year;owner</string>
+    <string name="library_spectrum_author">Nathan Walters</string>
+    <string name="library_spectrum_authorWebsite">https://nwalters.com/</string>
+    <string name="library_spectrum_libraryName">Spectrum</string>
+    <string name="library_spectrum_libraryDescription">
+        <![CDATA[
+        <b>Spectrum</b> is a color selection library for Android
+		]]>
+    </string>
+    <string name="library_spectrum_libraryVersion">0.7.1</string>
+    <string name="library_spectrum_libraryWebsite">https://github.com/the-blue-alliance/spectrum</string>
+    <string name="library_spectrum_licenseId"></string>
+    <string name="library_spectrum_isOpenSource">true</string>
+    <string name="library_spectrum_repositoryLink">https://github.com/the-blue-alliance/spectrum</string>
+    <!-- Custom variables section -->
+    <string name="library_spectrum_owner">Nathan Walters</string>
+    <string name="library_spectrum_year">2017</string>
+</resources>

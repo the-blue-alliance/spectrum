@@ -1,5 +1,8 @@
 package com.thebluealliance.spectrumsample;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -136,4 +139,34 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                     }
                 }).build().show(getFragmentManager(), "dialog_demo_5");
     }
+
+
+    @SuppressLint("ResourceAsColor")
+    private void showDialogSelectedColor(Context context) {
+        //Here we get color from shared prefs
+        final SharedPreferences preferences = context.getSharedPreferences("colors", Context.MODE_PRIVATE);
+        int selectedColor = preferences.getInt("SELECTED_COLOR",R.color.md_blue_500);
+        //***********************************************************************
+        //Note That @setSelectedColor used InsteadOf @setSelectedColorRes
+        new SpectrumDialog.Builder(getContext())
+                .setColors(R.array.demo_colors)
+                .setSelectedColor(selectedColor)
+                .setDismissOnColorSelected(true)
+                .setOutlineWidth(2)
+                .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
+                    @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
+                        if (positiveResult) {
+                            //Here we save value In sharedPrefs
+                            preferences.edit().putInt("SELECTED_COLOR",color).apply();
+                            //*************************************************************
+                            Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Dialog cancelled", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).build().show(getFragmentManager(), "dialog_demo_1");
+    }
+
+
+
 }

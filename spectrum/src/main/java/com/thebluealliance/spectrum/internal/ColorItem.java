@@ -1,10 +1,5 @@
 package com.thebluealliance.spectrum.internal;
 
-import com.thebluealliance.spectrum.R;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
@@ -16,12 +11,19 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
+
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import androidx.annotation.ColorInt;
+
+import com.thebluealliance.spectrum.R;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class ColorItem extends FrameLayout implements View.OnClickListener {
 
@@ -31,7 +33,8 @@ public class ColorItem extends FrameLayout implements View.OnClickListener {
     private EventBus mEventBus;
 
     private ImageView mItemCheckmark;
-    private @ColorInt int mColor;
+    private @ColorInt
+    int mColor;
     private boolean mIsSelected = false;
     private int mOutlineWidth = 0;
 

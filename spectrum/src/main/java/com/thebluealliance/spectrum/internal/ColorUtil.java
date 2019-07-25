@@ -1,7 +1,8 @@
 package com.thebluealliance.spectrum.internal;
 
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
+
+import androidx.annotation.ColorInt;
 
 /**
  * General-purpose class tor color functions

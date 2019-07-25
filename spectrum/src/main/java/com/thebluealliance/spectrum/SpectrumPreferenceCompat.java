@@ -5,15 +5,16 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.ColorInt;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.preference.DialogPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.ArrayRes;
+import androidx.annotation.ColorInt;
+import androidx.fragment.app.DialogFragment;
+import androidx.preference.DialogPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceViewHolder;
 
 import com.thebluealliance.spectrum.internal.ColorCircleDrawable;
 import com.thebluealliance.spectrum.internal.SpectrumPreferenceDialogFragmentCompat;
@@ -44,7 +45,8 @@ public class SpectrumPreferenceCompat extends DialogPreference {
 
     private static final String DIALOG_FRAGMENT_TAG = "android.support.v7.preference.PreferenceFragment.DIALOG";
 
-    private static final @ColorInt int DEFAULT_VALUE = Color.BLACK;
+    private static final @ColorInt
+    int DEFAULT_VALUE = Color.BLACK;
     public static final int ALPHA_DISABLED = 97; //38% alpha
 
     private @ColorInt int[] mColors;

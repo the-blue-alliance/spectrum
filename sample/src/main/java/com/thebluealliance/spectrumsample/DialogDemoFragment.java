@@ -1,12 +1,13 @@
 package com.thebluealliance.spectrumsample;
 
-import com.thebluealliance.spectrum.SpectrumDialog;
-
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.widget.Toast;
+
+import androidx.annotation.ColorInt;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+
+import com.thebluealliance.spectrum.SpectrumDialog;
 
 /**
  * Even though we aren't demoing preferences here, we use a list of preferences as the UI to launch

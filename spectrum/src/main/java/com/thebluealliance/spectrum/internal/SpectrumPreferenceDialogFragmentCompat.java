@@ -1,20 +1,22 @@
 package com.thebluealliance.spectrum.internal;
 
-import com.thebluealliance.spectrum.SpectrumPalette;
-import com.thebluealliance.spectrum.R;
-import com.thebluealliance.spectrum.SpectrumPreferenceCompat;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
+
+import androidx.annotation.ColorInt;
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.PreferenceDialogFragmentCompat;
+
+import com.thebluealliance.spectrum.R;
+import com.thebluealliance.spectrum.SpectrumPalette;
+import com.thebluealliance.spectrum.SpectrumPreferenceCompat;
 
 public class SpectrumPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 
     private SpectrumPalette mColorPalette;
-    private @ColorInt int mCurrentValue;
+    private @ColorInt
+    int mCurrentValue;
 
     public static SpectrumPreferenceDialogFragmentCompat newInstance(String key) {
         final SpectrumPreferenceDialogFragmentCompat fragment =

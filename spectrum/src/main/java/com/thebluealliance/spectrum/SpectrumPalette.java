@@ -1,15 +1,8 @@
 package com.thebluealliance.spectrum;
 
-import com.thebluealliance.spectrum.internal.ColorItem;
-import com.thebluealliance.spectrum.internal.ColorUtil;
-import com.thebluealliance.spectrum.internal.SelectedColorChangedEvent;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.ColorInt;
+
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,6 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.annotation.ColorInt;
+
+import com.thebluealliance.spectrum.internal.ColorItem;
+import com.thebluealliance.spectrum.internal.ColorUtil;
+import com.thebluealliance.spectrum.internal.SelectedColorChangedEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,8 @@ public class SpectrumPalette extends LinearLayout {
 
     private int mColorItemDimension;
     private int mColorItemMargin;
-    private @ColorInt int[] mColors;
+    private @ColorInt
+    int[] mColors;
     private @ColorInt int mSelectedColor;
     private OnColorSelectedListener mListener;
     private boolean mAutoPadding = false;

@@ -5,17 +5,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import androidx.annotation.ArrayRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 public class SpectrumDialog extends DialogFragment implements SpectrumPalette.OnColorSelectedListener {
 
@@ -33,7 +34,8 @@ public class SpectrumDialog extends DialogFragment implements SpectrumPalette.On
     private CharSequence mTitle;
     private CharSequence mPositiveButtonText;
     private CharSequence mNegativeButtonText;
-    private @ColorInt int[] mColors;
+    private @ColorInt
+    int[] mColors;
     private @ColorInt int mOriginalSelectedColor = -1;
     private @ColorInt int mSelectedColor = -1;
     private boolean mShouldDismissOnColorSelected = true;

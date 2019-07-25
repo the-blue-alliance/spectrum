@@ -1,12 +1,16 @@
 package com.thebluealliance.spectrumsample;
 
-import com.thebluealliance.spectrum.SpectrumDialog;
-
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.widget.Toast;
+
+import androidx.annotation.ColorInt;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+
+import com.thebluealliance.spectrum.SpectrumDialog;
 
 /**
  * Even though we aren't demoing preferences here, we use a list of preferences as the UI to launch
@@ -135,4 +139,34 @@ public class DialogDemoFragment extends PreferenceFragmentCompat {
                     }
                 }).build().show(getFragmentManager(), "dialog_demo_5");
     }
+
+
+    @SuppressLint("ResourceAsColor")
+    private void showDialogSelectedColor(Context context) {
+        //Here we get color from shared prefs
+        final SharedPreferences preferences = context.getSharedPreferences("colors", Context.MODE_PRIVATE);
+        int selectedColor = preferences.getInt("SELECTED_COLOR",R.color.md_blue_500);
+        //***********************************************************************
+        //Note That @setSelectedColor used InsteadOf @setSelectedColorRes
+        new SpectrumDialog.Builder(getContext())
+                .setColors(R.array.demo_colors)
+                .setSelectedColor(selectedColor)
+                .setDismissOnColorSelected(true)
+                .setOutlineWidth(2)
+                .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
+                    @Override public void onColorSelected(boolean positiveResult, @ColorInt int color) {
+                        if (positiveResult) {
+                            //Here we save value In sharedPrefs
+                            preferences.edit().putInt("SELECTED_COLOR",color).apply();
+                            //*************************************************************
+                            Toast.makeText(getContext(), "Color selected: #" + Integer.toHexString(color).toUpperCase(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Dialog cancelled", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).build().show(getFragmentManager(), "dialog_demo_1");
+    }
+
+
+
 }

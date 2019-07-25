@@ -8,17 +8,19 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.preference.DialogPreference;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.ArrayRes;
+import androidx.annotation.ColorInt;
 
 import com.thebluealliance.spectrum.internal.ColorCircleDrawable;
 
 public class SpectrumPreference extends DialogPreference {
 
-    private static final @ColorInt int DEFAULT_VALUE = Color.BLACK;
+    private static final @ColorInt
+    int DEFAULT_VALUE = Color.BLACK;
     public static final int ALPHA_DISABLED = 97; //38% alpha
 
     private @ColorInt int[] mColors;

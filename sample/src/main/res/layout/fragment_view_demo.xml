@@ -10,6 +10,10 @@
         android:layout_height="match_parent"
         app:spectrum_autoPadding="true"
         app:spectrum_outlineWidth="2dp"
-        app:spectrum_colors="@array/demo_colors" />
+        app:spectrum_colors="@array/demo_colors"
+        app:spectrum_color_item_size="42dp"
+        app:spectrum_color_item_margins="12dp"
+        app:spectrum_custom_selected_img="@drawable/shape_oval_white"
+        app:spectrum_custom_selected_check_margins="12dp"/>
 
 </android.support.v4.widget.NestedScrollView>

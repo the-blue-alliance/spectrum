@@ -9,6 +9,10 @@
         <attr name="spectrum_outlineWidth" />
         <attr name="spectrum_columnCount" />
         <attr name="spectrum_autoPadding" format="boolean" />
+        <attr name="spectrum_color_item_size" format="dimension"/>
+        <attr name="spectrum_color_item_margins" format="dimension"/>
+        <attr name="spectrum_custom_selected_img" format="integer" />
+        <attr name="spectrum_custom_selected_check_margins" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SpectrumPreference">
